@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inizializza Ricompense Token Quest</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1c1a1d;
+            color: #ffffff;
+        }
+        h1 {
+            color: #fdf267;
+            text-align: center;
+        }
+        .container {
+            background-color: #2a282b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #fdf267;
+            color: #1c1a1d;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #e9de5e;
+        }
+        .reward-list {
+            margin-top: 20px;
+        }
+        .reward-item {
+            background-color: #3a383b;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .reward-title {
+            font-weight: bold;
+            color: #fdf267;
+            margin-bottom: 5px;
+        }
+        .reward-energy {
+            color: #fdf267;
+            font-weight: bold;
+        }
+        .success-message {
+            background-color: rgba(0, 128, 0, 0.2);
+            color: #4caf50;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Inizializza Ricompense Token Quest</h1>
+    
+    <div class="container">
+        <p>Questo strumento inizializzeru00e0 le ricompense predefinite per l'applicazione Token Quest. Tutte le ricompense esistenti verranno eliminate.</p>
+        
+        <h2>Ricompense predefinite:</h2>
+        <div class="reward-list">
+            <div class="reward-item">
+                <div class="reward-title">Sessione di gioco</div>
+                <div class="reward-description">Concediti del tempo per giocare ai tuoi videogiochi preferiti</div>
+                <div class="reward-energy">4</div>
+            </div>
+            <div class="reward-item">
+                <div class="reward-title">Film o serie tv</div>
+                <div class="reward-description">Guardati un film o un episodio della tua serie preferita</div>
+                <div class="reward-energy">4</div>
+            </div>
+            <div class="reward-item">
+                <div class="reward-title">Leggere</div>
+                <div class="reward-description">Dedica del tempo alla lettura di un libro che ti piace</div>
+                <div class="reward-energy">3</div>
+            </div>
+            <div class="reward-item">
+                <div class="reward-title">Attivitu00e0 creative</div>
+                <div class="reward-description">Dedica del tempo a un hobby creativo come disegno, pittura o musica</div>
+                <div class="reward-energy">3</div>
+            </div>
+        </div>
+        
+        <button id="initButton">Inizializza Ricompense</button>
+        
+        <div id="successMessage" class="success-message">
+            Ricompense inizializzate con successo! Ora puoi tornare all'applicazione Token Quest.
+        </div>
+    </div>
+    
+    <script>
+        // Funzione per generare un ID unico
+        function generateUniqueId() {
+            return Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        // Funzione per inizializzare le ricompense predefinite
+        function initializeRewards() {
+            // Elimina tutte le ricompense esistenti rimuovendo la chiave dal localStorage
+            localStorage.removeItem('tokenquest_rewards');
+            
+            // Crea le nuove ricompense predefinite
+            const defaultRewards = [
+                {
+                    id: generateUniqueId(),
+                    title: 'Sessione di gioco',
+                    description: 'Concediti del tempo per giocare ai tuoi videogiochi preferiti',
+                    energyCost: 4,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Film o serie tv',
+                    description: 'Guardati un film o un episodio della tua serie preferita',
+                    energyCost: 4,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Leggere',
+                    description: 'Dedica del tempo alla lettura di un libro che ti piace',
+                    energyCost: 3,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Attivitu00e0 creative',
+                    description: 'Dedica del tempo a un hobby creativo come disegno, pittura o musica',
+                    energyCost: 3,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            // Salva le ricompense nel localStorage
+            localStorage.setItem('tokenquest_rewards', JSON.stringify(defaultRewards));
+            
+            // Mostra il messaggio di successo
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Disabilita il pulsante
+            document.getElementById('initButton').disabled = true;
+            document.getElementById('initButton').style.opacity = '0.5';
+            document.getElementById('initButton').textContent = 'Ricompense Inizializzate';
+            
+            console.log('Ricompense predefinite inizializzate con successo!');
+            return defaultRewards;
+        }
+        
+        // Aggiungi l'event listener al pulsante
+        document.getElementById('initButton').addEventListener('click', initializeRewards);
+    </script>
+</body>
+</html>

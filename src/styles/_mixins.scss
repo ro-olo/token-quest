@@ -1,0 +1,114 @@
+// Flexbox utilities
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+// Media queries
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  }
+  @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  }
+  @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  }
+  @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+// Button styles
+@mixin button-base {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-family: $font-body;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-medium;
+  box-shadow: $button-shadow;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Card styles
+@mixin card {
+  background-color: rgba($background-light, 0.95);
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+  padding: 1.5rem;
+  transition: $transition-medium;
+  
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+  }
+}
+
+// Gradient background
+@mixin gradient-background($start-color, $end-color, $direction: to bottom) {
+  background: linear-gradient($direction, $start-color, $end-color);
+}
+
+// Fantasy-style border
+@mixin fantasy-border {
+  position: relative;
+  border: 2px solid $secondary-color;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 1px solid rgba($secondary-color, 0.5);
+    border-radius: $border-radius + 4px;
+    pointer-events: none;
+  }
+}
+
+// Scroll transition background effect
+@mixin scroll-transition-background($topColor: $primary-color, $bottomColor: $background-dark, $topOpacity: 0.3, $bottomOpacity: 0.7) {
+  &::before, &::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+  }
+  
+  &::before {
+    background-color: $topColor;
+    opacity: $topOpacity;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  &::after {
+    background-color: $bottomColor;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  &.scrolled::before {
+    opacity: 0;
+  }
+  
+  &.scrolled::after {
+    opacity: $bottomOpacity;
+  }
+}

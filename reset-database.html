@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripristino Database Token Quest</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #4cc9f0;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        button {
+            background-color: #7209b7;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #560bad;
+        }
+        .success {
+            color: #72efdd;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+        .card-preview {
+            background-color: #16213e;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+        .card-title {
+            color: #f1c40f;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .card-description {
+            color: #e6e6e6;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .card-energy {
+            color: #72efdd;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ripristino Database Token Quest</h1>
+    <p>Questa pagina ripristinerà il database di Token Quest con le nuove missioni e ricompense in stile fantasy.</p>
+    
+    <div class="card-preview">
+        <h3>Anteprima delle nuove missioni:</h3>
+        <div class="card-title">🌟 Affrontare la Battaglia del Giorno</div>
+        <div class="card-description">Completa una giornata lavorativa</div>
+        <div class="card-energy">⚡ 8</div>
+        <hr>
+        <div class="card-title">🌟 Difendere il Reame dalla Polvere</div>
+        <div class="card-description">Dedica un quarto d'ora a pulire o riordinare casa</div>
+        <div class="card-energy">⚡ 1</div>
+    </div>
+
+    <div class="card-preview">
+        <h3>Anteprima delle nuove ricompense:</h3>
+        <div class="card-title">🏆 Avventura Virtuale nel Regno Digitale</div>
+        <div class="card-description">Concediti del tempo per giocare ai tuoi videogiochi preferiti</div>
+        <div class="card-energy">⚡ 4</div>
+        <hr>
+        <div class="card-title">🏆 Leggere il Tomo Antico</div>
+        <div class="card-description">Dedica del tempo alla lettura di un libro che ti piace</div>
+        <div class="card-energy">⚡ 3</div>
+    </div>
+    
+    <button id="resetButton">Ripristina Database</button>
+    <div id="successMessage" class="success">Database ripristinato con successo! Ora puoi tornare all'applicazione.</div>
+
+    <script>
+        // Funzione per generare un ID unico
+        function generateUniqueId() {
+            return Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
+        }
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            // Dati delle missioni con titoli fantasy
+            const missionsData = [
+                {
+                    id: generateUniqueId(),
+                    title: 'Affrontare la Battaglia del Giorno',
+                    description: 'Completa una giornata lavorativa',
+                    energyReward: 8,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: "Allenamento dell'Eroe",
+                    description: 'Fai 30 minuti di esercizio fisico',
+                    energyReward: 2,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Consultare gli Antichi Tomi',
+                    description: 'Dedica mezz\'ora allo studio o alla lettura',
+                    energyReward: 3,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Purificare gli Strumenti del Banchetto',
+                    description: 'Lava i piatti dopo un pasto',
+                    energyReward: 2,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Preparare il Banchetto del Viaggiatore',
+                    description: 'Prepara un pasto completo',
+                    energyReward: 2,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Rituale di Purificazione delle Vesti',
+                    description: 'Completa un ciclo di lavaggio e stendi i panni',
+                    energyReward: 3,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Difendere il Reame dalla Polvere',
+                    description: 'Dedica un quarto d\'ora a pulire o riordinare casa',
+                    energyReward: 1,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+
+            // Dati delle ricompense con titoli fantasy
+            const rewardsData = [
+                {
+                    id: generateUniqueId(),
+                    title: 'Avventura Virtuale nel Regno Digitale',
+                    description: 'Concediti del tempo per giocare ai tuoi videogiochi preferiti',
+                    energyCost: 4,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Visione delle Leggende Moderne',
+                    description: 'Guardati un film o un episodio della tua serie preferita',
+                    energyCost: 4,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Leggere il Tomo Antico',
+                    description: 'Dedica del tempo alla lettura di un libro che ti piace',
+                    energyCost: 3,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: generateUniqueId(),
+                    title: 'Creare Arte Arcana',
+                    description: 'Dedica del tempo a un hobby creativo come disegno, pittura o musica',
+                    energyCost: 3,
+                    redeemed: false,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+
+            // Salva forzatamente i dati nel localStorage
+            localStorage.removeItem('tokenquest_missions');
+            localStorage.removeItem('tokenquest_rewards');
+            localStorage.setItem('tokenquest_missions', JSON.stringify(missionsData));
+            localStorage.setItem('tokenquest_rewards', JSON.stringify(rewardsData));
+
+            // Mostra il messaggio di successo
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('resetButton').disabled = true;
+            document.getElementById('resetButton').textContent = 'Database Ripristinato';
+            document.getElementById('resetButton').style.backgroundColor = '#4cc9f0';
+        });
+    </script>
+</body>
+</html>

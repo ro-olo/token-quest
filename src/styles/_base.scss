@@ -1,0 +1,136 @@
+@import 'variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: $font-body;
+  color: $text-light;
+  background-color: $background-dark;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-title;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: $primary-color;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-top: 0;
+  
+  @include respond-to(md) {
+    font-size: 3rem;
+  }
+}
+
+h2 {
+  font-size: 1.5rem;
+  
+  @include respond-to(md) {
+    font-size: 1.75rem;
+  }
+}
+
+h3 {
+  color: $text-light;
+  font-size: 1.5rem;
+  font-family: $font-title;
+  margin-bottom: 1rem;
+  
+  @include respond-to(md) {
+    font-size: 1.75rem;
+  }
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: $transition-fast;
+  
+  &:hover {
+    color: lighten($primary-color, 15%);
+    text-decoration: underline;
+  }
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+button {
+  @include button-base;
+}
+
+.btn {
+  @include button-base;
+  
+  &-primary {
+    background-color: $primary-color;
+    color: $text-light;
+    
+    &:hover, &:focus {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+  
+  &-secondary {
+    background-color: $secondary-color;
+    color: $text-light;
+    
+    &:hover, &:focus {
+      background-color: lighten($secondary-color, 10%);
+    }
+  }
+  
+  &-success {
+    background-color: $tertiary-color;
+    color: $text-light;
+    
+    &:hover, &:focus {
+      background-color: lighten($tertiary-color, 10%);
+    }
+  }
+  
+  &-danger {
+    background-color: $danger-color;
+    color: $text-light;
+    
+    &:hover, &:focus {
+      background-color: darken($danger-color, 10%);
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  
+  @include respond-to(lg) {
+    padding: 0 2rem;
+  }
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: $navbar-height;
+  padding-bottom: $footer-height;
+}

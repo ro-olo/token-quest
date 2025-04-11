@@ -1,0 +1,39 @@
+// Colors
+$primary-color: #fdf267;       // Yellow - main theme color
+$secondary-color: #ffc42d;     // Orange-yellow - for accents and highlights
+$tertiary-color: #fdd154;      // Light orange - for success states
+$danger-color: #8b0000;        // Dark red - for errors and dangers
+$background-dark: #1c1a1d;     // Dark grey - primary background
+$background-light: #1c1a1d;    // Dark grey - card background
+$card-background: #2f2b30b1;   // Slightly lighter grey - for cards
+$text-light: #ffffff;          // White - text on dark background
+$text-dark: #1c1a1d;           // Dark grey - text on light background (buttons)
+$overlay-color: rgba(0, 0, 0, 0.7); // Semi-transparent overlay
+
+// Fonts
+$font-title: 'Fondamento', cursive;
+$font-body: 'Lato', sans-serif;
+
+// Sizes
+$navbar-height: 70px;
+$footer-height: 60px;
+$border-radius: 8px;
+$card-border-radius: 8px;
+$card-padding: 1.25rem;
+$card-margin: 1rem;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Shadows
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+$card-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+$button-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+// Transitions
+$transition-fast: all 0.2s ease;
+$transition-medium: all 0.3s ease;
+$transition-slow: all 0.5s ease;

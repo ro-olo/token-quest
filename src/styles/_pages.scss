@@ -1,0 +1,704 @@
+@import 'variables';
+@import 'mixins';
+
+// Welcome page
+.welcome-page {
+  min-height: 100vh;
+  @include flex(column, center, center);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4F359B; 
+    opacity: 0.2;
+    z-index: -1;
+  }
+  
+  .welcome-content {
+    max-width: 600px;
+    @include card;
+    text-align: center;
+    
+    .logo {
+      max-width: 200px;
+      margin: 0 auto 2rem;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: $primary-color;
+      
+      @include respond-to(md) {
+        font-size: 3rem;
+      }
+    }
+    
+    p {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+    
+    .btn {
+      margin: 0 0.5rem;
+    }
+  }
+}
+
+// Register page
+.register-page {
+  min-height: 100vh;
+  @include flex(column, center, center);
+  padding: 2rem;
+  
+  .register-form {
+    width: 100%;
+    max-width: 500px;
+    @include card;
+    
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .form-footer {
+      margin-top: 2rem;
+      text-align: center;
+    }
+  }
+}
+
+// Dashboard page
+.dashboard-page {
+  padding: 2rem 0;
+  
+  .dashboard-header {
+    margin-bottom: 2rem;
+    
+    .user-greeting {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .current-quest-status {
+      color: rgba($text-dark, 0.7);
+    }
+  }
+  
+  .stats-row {
+    @include flex(row, space-between, stretch, wrap);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    .stat-card {
+      flex: 1;
+      min-width: 200px;
+      padding: 1.25rem;
+      @include card;
+      text-align: center;
+      
+      @include respond-to(sm) {
+        flex-basis: calc(50% - 0.5rem);
+      }
+      
+      @include respond-to(md) {
+        flex-basis: calc(33.333% - 0.67rem);
+      }
+      
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $primary-color;
+        margin-bottom: 0.5rem;
+      }
+      
+      .stat-label {
+        font-size: 0.9rem;
+        color: rgba($text-dark, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+  }
+  
+  .dashboard-sections {
+    @include flex(row, space-between, stretch, wrap);
+    gap: 1.5rem;
+    
+    .dashboard-section {
+      margin-bottom: 3.5rem;
+      padding: 1.5rem 0;
+      
+      &.missions-section,
+      &.rewards-section {
+        padding: 2rem 0;
+        background-color: rgba(0, 0, 0, 0.2); 
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
+      
+      @include respond-to(lg) {
+        flex-basis: calc(50% - 0.75rem);
+      }
+      
+      .section-header {
+        @include flex(row, space-between, center);
+        margin-bottom: 1.5rem;
+        
+        .section-title {
+          font-family: $font-title;
+          font-size: 1.25rem;
+          margin: 0;
+          color: #ffffff;
+        }
+        
+        .section-link {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+// Missions page
+.missions-page {
+  padding: 2rem 0;
+  
+  .missions-header {
+    @include flex(row, space-between, center, wrap);
+    margin-bottom: 2rem;
+    
+    h2 {
+      color: #ffffff; 
+      font-family: $font-title;
+      margin-bottom: 0; 
+    }
+    
+    .filters-container {
+      @include flex(row, flex-start, center);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      
+      .filter-item {
+        padding: 0.5rem 1rem;
+        background-color: rgba($primary-color, 0.1);
+        border-radius: 20px;
+        cursor: pointer;
+        
+        &.active {
+          background-color: $primary-color;
+          color: $text-dark; 
+          font-weight: 600; 
+        }
+        
+        &:hover:not(.active) {
+          background-color: rgba($primary-color, 0.2);
+        }
+      }
+    }
+  }
+  
+  .actions-row {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    
+    .btn-secondary {
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      
+      i {
+        margin-right: 0.5rem;
+      }
+      
+      &:hover {
+        background-color: rgba($primary-color, 0.2);
+      }
+    }
+  }
+  
+  .missions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem; 
+    margin: 2rem 0; 
+    
+    .mission-card {
+      margin: 0;
+      height: 220px; 
+      min-width: 0; 
+    }
+  }
+  
+  .add-mission-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    color: $text-dark;
+    @include flex(row, center, center);
+    box-shadow: $button-shadow;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: $transition-fast;
+    z-index: 10;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  .empty-state {
+    @include flex(column, center, center);
+    padding: 3rem 1rem;
+    text-align: center;
+    background-color: rgba($primary-color, 0.05);
+    border-radius: $border-radius;
+    margin: 2rem 0;
+    
+    .empty-icon {
+      font-size: 3rem;
+      color: rgba($primary-color, 0.4);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-text {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: $text-light;
+    }
+  }
+}
+
+// Rewards page
+.rewards-page {
+  padding: 2rem 0;
+  
+  .rewards-header {
+    @include flex(row, space-between, center, wrap);
+    margin-bottom: 2rem;
+    
+    h2 {
+      color: #ffffff; 
+      font-family: $font-title;
+      margin-bottom: 0; 
+    }
+    
+    .filters-container {
+      @include flex(row, flex-start, center);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      
+      .filter-item {
+        padding: 0.5rem 1rem;
+        background-color: rgba($primary-color, 0.1);
+        border-radius: 20px;
+        cursor: pointer;
+        
+        &.active {
+          background-color: $primary-color;
+          color: $text-dark; 
+          font-weight: 600; 
+        }
+        
+        &:hover:not(.active) {
+          background-color: rgba($primary-color, 0.2);
+        }
+      }
+    }
+  }
+  
+  .actions-row {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    
+    .btn-secondary {
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      
+      i {
+        margin-right: 0.5rem;
+      }
+      
+      &:hover {
+        background-color: rgba($primary-color, 0.2);
+      }
+    }
+  }
+  
+  .rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem; 
+    margin: 2rem 0; 
+    
+    .reward-card {
+      margin: 0;
+      height: 220px; 
+      min-width: 0; 
+    }
+  }
+  
+  .add-reward-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    color: $text-dark;
+    @include flex(row, center, center);
+    box-shadow: $button-shadow;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: $transition-fast;
+    z-index: 10;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  .empty-state {
+    @include flex(column, center, center);
+    padding: 3rem 1rem;
+    text-align: center;
+    background-color: rgba($primary-color, 0.05);
+    border-radius: $border-radius;
+    margin: 2rem 0;
+    
+    .empty-icon {
+      font-size: 3rem;
+      color: rgba($primary-color, 0.4);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-text {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: $text-light;
+    }
+  }
+}
+
+// Journal page
+.journal-page {
+  padding: 2rem 0;
+  
+  .journal-entries {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .empty-journal {
+    text-align: center;
+    padding: 3rem 0;
+    
+    .empty-icon {
+      font-size: 3rem;
+      color: rgba($primary-color, 0.3);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-text {
+      color: rgba($text-dark, 0.6);
+    }
+  }
+}
+
+// Login page
+.login-page {
+  min-height: 100vh;
+  @include flex(column, center, center);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4F359B; 
+    opacity: 0.2;
+    z-index: -1;
+  }
+  
+  .login-form {
+    width: 100%;
+    max-width: 500px;
+    @include card;
+    
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-family: $font-title;
+      color: $primary-color;
+    }
+    
+    .form-footer {
+      margin-top: 2rem;
+      text-align: center;
+      
+      .register-link {
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: rgba($text-light, 0.8);
+        
+        a {
+          color: $primary-color;
+          text-decoration: none;
+          font-weight: 600;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Profile page
+.profile-page {
+  padding: 4rem 0;
+  
+  .page-title {
+    color: $primary-color;
+    font-family: $font-title;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .achievements-card {
+      @include respond-to(md) {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+  
+  .profile-card, .stats-card, .achievements-card {
+    @include card;
+    padding: 1.5rem;
+    
+    .card-header {
+      @include flex(row, space-between, center);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba($primary-color, 0.2);
+      
+      h3 {
+        font-family: $font-title;
+        color: $primary-color;
+        margin: 0;
+        font-size: 1.35rem;
+      }
+    }
+  }
+  
+  .profile-info {
+    @include flex(column, center, center);
+    text-align: center;
+    padding: 1.5rem 0;
+    
+    .profile-avatar {
+      margin-bottom: 1.5rem;
+      
+      .avatar-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: rgba($primary-color, 0.2);
+        color: $primary-color;
+        font-size: 3rem;
+        font-weight: 700;
+        @include flex(row, center, center);
+        margin: 0 auto;
+      }
+    }
+    
+    .profile-details {
+      .profile-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        font-family: $font-title;
+        color: $primary-color;
+      }
+      
+      .profile-email {
+        color: rgba($text-light, 0.8);
+        margin-bottom: 0.75rem;
+      }
+      
+      .profile-since {
+        font-size: 0.85rem;
+        color: rgba($text-light, 0.6);
+        font-style: italic;
+      }
+    }
+  }
+  
+  .logout-section {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .form-actions {
+    @include flex(row, center, center);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    
+    .stat-item {
+      @include flex(column, center, center);
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background-color: rgba($primary-color, 0.1);
+      border-radius: $border-radius;
+      
+      .stat-icon {
+        font-size: 1.5rem;
+        color: $primary-color;
+        margin-bottom: 1rem;
+      }
+      
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $primary-color;
+        margin-bottom: 0.5rem;
+      }
+      
+      .stat-label {
+        font-size: 0.9rem;
+        color: rgba($text-light, 0.8);
+      }
+    }
+  }
+  
+  .achievements-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .achievement-item {
+      @include flex(row, flex-start, center);
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: $border-radius;
+      background-color: rgba($primary-color, 0.1);
+      position: relative;
+      overflow: hidden;
+      
+      &.locked {
+        opacity: 0.6;
+        
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: repeating-linear-gradient(
+            45deg,
+            rgba(0, 0, 0, 0.1),
+            rgba(0, 0, 0, 0.1) 10px,
+            rgba(0, 0, 0, 0.2) 10px,
+            rgba(0, 0, 0, 0.2) 20px
+          );
+        }
+        
+        .achievement-icon {
+          color: rgba($text-light, 0.5);
+        }
+      }
+      
+      &.unlocked {
+        background-color: rgba($primary-color, 0.2);
+      }
+      
+      .achievement-icon {
+        font-size: 2rem;
+        color: $primary-color;
+        width: 50px;
+        height: 50px;
+        @include flex(row, center, center);
+        flex-shrink: 0;
+      }
+      
+      .achievement-content {
+        flex: 1;
+        
+        h4 {
+          margin: 0 0 0.25rem;
+          font-family: $font-title;
+          color: $primary-color;
+          font-size: 1.1rem;
+        }
+        
+        p {
+          margin: 0;
+          font-size: 0.85rem;
+          color: rgba($text-light, 0.8);
+        }
+        
+        .achievement-date {
+          display: block;
+          font-size: 0.75rem;
+          color: rgba($text-light, 0.6);
+          margin-top: 0.5rem;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}

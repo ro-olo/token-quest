@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Token Quest</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            flex-direction: column;
+            text-align: center;
+        }
+        .container {
+            background-color: #16213e;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            color: #f1c40f;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        button {
+            background-color: #7209b7;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #560bad;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #72efdd;
+        }
+        .preview {
+            text-align: left;
+            margin: 20px 0;
+            background-color: #1f3460;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .preview h3 {
+            color: #f1c40f;
+            margin-top: 0;
+        }
+        .preview ul {
+            padding-left: 20px;
+        }
+        .preview li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reset Token Quest</h1>
+        <p>Questo strumento ripristinerà tutte le missioni e le ricompense di Token Quest con titoli fantasy.</p>
+        
+        <div class="preview">
+            <h3>Missioni con titoli fantasy:</h3>
+            <ul>
+                <li><strong>Affrontare la Battaglia del Giorno</strong> - Completa una giornata lavorativa (8)</li>
+                <li><strong>Allenamento dell'Eroe</strong> - Fai 30 minuti di esercizio fisico (2)</li>
+                <li><strong>Consultare gli Antichi Tomi</strong> - Dedica mezz'ora allo studio o alla lettura (3)</li>
+                <li><strong>Purificare gli Strumenti del Banchetto</strong> - Lava i piatti dopo un pasto (2)</li>
+                <li><strong>Preparare il Banchetto del Viaggiatore</strong> - Prepara un pasto completo (2)</li>
+                <li><strong>Rituale di Purificazione delle Vesti</strong> - Completa un ciclo di lavaggio e stendi i panni (3)</li>
+                <li><strong>Difendere il Reame dalla Polvere</strong> - Dedica un quarto d'ora a pulire o riordinare casa (1)</li>
+            </ul>
+        </div>
+        
+        <div class="preview">
+            <h3>Ricompense con titoli fantasy:</h3>
+            <ul>
+                <li><strong>Avventura Virtuale nel Regno Digitale</strong> - Concediti del tempo per giocare ai tuoi videogiochi preferiti (4)</li>
+                <li><strong>Visione delle Leggende Moderne</strong> - Guardati un film o un episodio della tua serie preferita (4)</li>
+                <li><strong>Leggere il Tomo Antico</strong> - Dedica del tempo alla lettura di un libro che ti piace (3)</li>
+                <li><strong>Creare Arte Arcana</strong> - Dedica del tempo a un hobby creativo come disegno, pittura o musica (3)</li>
+            </ul>
+        </div>
+        
+        <button id="resetButton">RESETTA TUTTO</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        document.getElementById('resetButton').addEventListener('click', function() {
+            try {
+                // Funzione per generare un ID unico
+                function generateUniqueId() {
+                    return Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
+                }
+
+                // Missioni in stile fantasy
+                const missionsData = [
+                    {
+                        id: generateUniqueId(),
+                        title: 'Affrontare la Battaglia del Giorno',
+                        description: 'Completa una giornata lavorativa',
+                        energyReward: 8,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: "Allenamento dell'Eroe",
+                        description: 'Fai 30 minuti di esercizio fisico',
+                        energyReward: 2,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Consultare gli Antichi Tomi',
+                        description: 'Dedica mezz\'ora allo studio o alla lettura',
+                        energyReward: 3,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Purificare gli Strumenti del Banchetto',
+                        description: 'Lava i piatti dopo un pasto',
+                        energyReward: 2,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Preparare il Banchetto del Viaggiatore',
+                        description: 'Prepara un pasto completo',
+                        energyReward: 2,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Rituale di Purificazione delle Vesti',
+                        description: 'Completa un ciclo di lavaggio e stendi i panni',
+                        energyReward: 3,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Difendere il Reame dalla Polvere',
+                        description: 'Dedica un quarto d\'ora a pulire o riordinare casa',
+                        energyReward: 1,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+
+                // Ricompense in stile fantasy
+                const rewardsData = [
+                    {
+                        id: generateUniqueId(),
+                        title: 'Avventura Virtuale nel Regno Digitale',
+                        description: 'Concediti del tempo per giocare ai tuoi videogiochi preferiti',
+                        energyCost: 4,
+                        redeemed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Visione delle Leggende Moderne',
+                        description: 'Guardati un film o un episodio della tua serie preferita',
+                        energyCost: 4,
+                        redeemed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Leggere il Tomo Antico',
+                        description: 'Dedica del tempo alla lettura di un libro che ti piace',
+                        energyCost: 3,
+                        redeemed: false,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: generateUniqueId(),
+                        title: 'Creare Arte Arcana',
+                        description: 'Dedica del tempo a un hobby creativo come disegno, pittura o musica',
+                        energyCost: 3,
+                        redeemed: false,
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+
+                // Elimina i dati esistenti
+                localStorage.removeItem('tokenquest_missions');
+                localStorage.removeItem('tokenquest_rewards');
+
+                // Salva i nuovi dati
+                localStorage.setItem('tokenquest_missions', JSON.stringify(missionsData));
+                localStorage.setItem('tokenquest_rewards', JSON.stringify(rewardsData));
+
+                document.getElementById('result').textContent = 'Database ripristinato con successo! Apri ora Token Quest per vedere le modifiche.';
+                document.getElementById('resetButton').textContent = 'FATTO';
+                document.getElementById('resetButton').disabled = true;
+                document.getElementById('resetButton').style.backgroundColor = '#28a745';
+            } catch (error) {
+                document.getElementById('result').textContent = 'Errore durante il ripristino: ' + error.message;
+                document.getElementById('result').style.color = '#ff5252';
+            }
+        });
+    </script>
+</body>
+</html>

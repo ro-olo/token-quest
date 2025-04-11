@@ -1,0 +1,1165 @@
+@import 'variables';
+@import 'mixins';
+
+// Card components
+.card {
+  margin: $card-margin;
+  padding: $card-padding;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  background-color: $card-background;
+  color: $text-light;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+  
+  &-title {
+    font-family: $font-title;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: $primary-color;
+    font-weight: 700;
+  }
+  
+  &-content {
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+  }
+  
+  &-footer {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba($primary-color, 0.2);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: auto;
+  }
+}
+
+// Mission card
+.mission-card {
+  margin: $card-margin;
+  padding: $card-padding;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  background-color: $card-background;
+  color: $text-light;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 220px;
+  
+  &.completed {
+    opacity: 0.8;
+    
+    .badge-success {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background-color: transparent;
+      color: $primary-color;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+  
+  &.urgent {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: $danger-color;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin: 10px;
+    }
+  }
+  
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+  
+  &-header {
+    @include flex(row, space-between, center);
+    margin-bottom: 0.75rem;
+  }
+  
+  &-title {
+    font-family: $font-title;
+    font-size: 1.25rem;
+    color: $primary-color;
+    margin: 0;
+    font-weight: 700;
+  }
+  
+  &-description {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    color: $text-light;
+    flex: 1 1 auto;
+  }
+  
+  &-footer {
+    @include flex(row, space-between, center);
+    margin-top: auto;
+    
+    .mission-type {
+      font-size: 0.85rem;
+      color: rgba($text-light, 0.7);
+      
+      i {
+        margin-right: 0.5rem;
+        color: $primary-color;
+      }
+    }
+    
+    .mission-actions {
+      @include flex(row, flex-end, center);
+      
+      .btn {
+        font-weight: 600;
+        
+        &.btn-success {
+          background-color: $tertiary-color;
+          color: #1c1a1d;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// Reward card
+.reward-card {
+  margin: $card-margin;
+  padding: $card-padding;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  background-color: $card-background;
+  color: $text-light;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 220px;
+  
+  &.redeemed {
+    opacity: 0.8;
+    
+    .badge-success {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background-color: transparent;
+      color: $primary-color;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+  
+  &.locked {
+    opacity: 0.7;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+    
+    .reward-card-footer {
+      position: relative;
+      z-index: 2;
+    }
+  }
+  
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+  
+  &-header {
+    @include flex(row, space-between, center);
+    margin-bottom: 0.75rem;
+  }
+  
+  &-title {
+    font-family: $font-title;
+    font-size: 1.25rem;
+    color: $primary-color;
+    margin: 0;
+    font-weight: 700;
+  }
+  
+  &-cost {
+    @include flex(row, center, center);
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 1.1rem;
+    
+    i {
+      margin-right: 0.25rem;
+    }
+  }
+  
+  &-description {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    color: $text-light;
+    flex: 1 1 auto;
+  }
+  
+  &-footer {
+    @include flex(row, space-between, center);
+    margin-top: auto;
+    
+    .reward-type {
+      font-size: 0.85rem;
+      color: rgba($text-light, 0.7);
+      
+      i {
+        margin-right: 0.5rem;
+        color: $primary-color;
+      }
+    }
+    
+    .reward-actions {
+      @include flex(row, flex-end, center);
+    }
+  }
+}
+
+// Vertical carousel for missions
+.vertical-carousel {
+  margin: 1rem 0;
+  
+  &-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .mission-card {
+    transition: $transition-medium;
+    
+    &:hover {
+      transform: scale(1.01);
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+    }
+  }
+}
+
+// Horizontal carousel for rewards
+.horizontal-carousel {
+  position: relative;
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 0 25px; 
+  
+  &-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 0; 
+  }
+  
+  &-items {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 1rem; 
+    
+    .mission-card, .reward-card {
+      min-width: 320px;
+      flex: 0 0 320px;
+      margin: 0;
+      height: 220px;
+      
+      @media (max-width: 767px) {
+        // Su tablet e mobile, mantenere le dimensioni standard ma ridurre leggermente
+        min-width: 300px;
+        flex: 0 0 300px;
+      }
+      
+      @media (max-width: 576px) {
+        // Su mobile piccolo, garantire una buona visualizzazione
+        min-width: 280px;
+        flex: 0 0 280px;
+      }
+    }
+  }
+  
+  // Stile dei pulsanti di navigazione
+  .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: $primary-color;
+    cursor: pointer;
+    @include flex(row, center, center);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: rgba($primary-color, 0.5);
+      color: rgba($primary-color, 0.5);
+    }
+    
+    &.prev {
+      left: -20px;
+    }
+    
+    &.next {
+      right: -20px;
+    }
+  }
+}
+
+// Add card
+.add-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba($card-background, 0.5);
+  border: 2px dashed rgba($primary-color, 0.4);
+  min-height: 220px;
+  
+  &:hover {
+    border-color: $primary-color;
+    background-color: rgba($card-background, 0.7);
+    
+    .add-card-title {
+      color: $text-light; 
+    }
+    
+    .add-icon {
+      color: $primary-color; 
+    }
+  }
+  
+  .add-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  
+  .add-icon {
+    font-size: 2.5rem;
+    color: $primary-color;
+    margin-bottom: 1rem;
+  }
+  
+  .add-card-title {
+    font-family: $font-title;
+    font-size: 1.2rem;
+    color: $text-light;
+    margin: 0 0 1.5rem;
+  }
+}
+
+// Journal entry
+.journal-entry {
+  @include card;
+  margin-bottom: 1.5rem;
+  background-color: $background-dark;
+  color: $text-light;
+  
+  &-header {
+    @include flex(row, space-between, center);
+    margin-bottom: 0.75rem;
+  }
+  
+  &-title {
+    font-family: $font-title;
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  
+  &-date {
+    color: rgba($text-light, 0.6);
+    font-size: 0.85rem;
+  }
+}
+
+// Badge
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 20px;
+  text-transform: uppercase;
+  
+  &-primary {
+    background-color: rgba($primary-color, 0.2);
+    color: $primary-color;
+  }
+  
+  &-secondary {
+    background-color: rgba($secondary-color, 0.2);
+    color: darken($secondary-color, 10%);
+  }
+  
+  &-success {
+    background-color: rgba($tertiary-color, 0.2);
+    color: $tertiary-color;
+  }
+  
+  &-danger {
+    background-color: rgba($danger-color, 0.2);
+    color: $danger-color;
+  }
+}
+
+// Progress bar
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background-color: rgba($primary-color, 0.2);
+  border-radius: 4px;
+  margin: 0.75rem 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: $primary-color;
+  border-radius: 4px;
+  transition: width 0.3s ease-in-out;
+  
+  &-success {
+    background-color: $tertiary-color;
+  }
+  
+  &-danger {
+    background-color: $danger-color;
+  }
+}
+
+// Forms
+.form-group {
+  margin-bottom: 1.5rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: $text-light;
+  }
+  
+  input, textarea, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba($primary-color, 0.3);
+    border-radius: $border-radius;
+    background-color: $background-dark;
+    font-family: $font-body;
+    transition: $transition-medium;
+    color: $text-light;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
+  }
+  
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .form-help {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    color: rgba($text-light, 0.7);
+  }
+}
+
+// Energy token display
+.energy-display {
+  @include flex(row, flex-start, center);
+  background-color: rgba($secondary-color, 0.15);
+  border-radius: $border-radius;
+  padding: 0.5rem 1rem;
+  
+  .energy-icon {
+    color: $secondary-color;
+    margin-right: 0.5rem;
+    font-size: 1.25rem;
+  }
+  
+  .energy-amount {
+    font-weight: 700;
+    color: $secondary-color;
+    font-size: 1.25rem;
+  }
+}
+
+// User avatar
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba($primary-color, 0.2);
+  color: $primary-color;
+  @include flex(row, center, center);
+  font-weight: 700;
+  font-size: 1.25rem;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Fantasy-style separator
+.fantasy-separator {
+  position: relative;
+  height: 30px;
+  margin: 2rem 0;
+  text-align: center;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, 
+      transparent, 
+      rgba($secondary-color, 0.3), 
+      rgba($secondary-color, 0.5), 
+      rgba($secondary-color, 0.3), 
+      transparent
+    );
+  }
+  
+  &::after {
+    content: "✦";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $secondary-color;
+    background-color: transparent;
+    padding: 0 1rem;
+    font-size: 1.25rem;
+  }
+}
+
+// Day indicator
+.day-indicator {
+  text-align: center;
+  margin: 1.5rem 0;
+  
+  .day-title {
+    font-family: $font-title;
+    font-size: 1.75rem;
+    color: $primary-color;
+    margin: 0;
+  }
+  
+  .day-date {
+    font-size: 0.9rem;
+    color: rgba($text-light, 0.7);
+  }
+}
+
+// Countdown timer
+.countdown {
+  @include flex(row, center, center, nowrap);
+  gap: 0.5rem;
+  margin: 1rem 0;
+  
+  .countdown-item {
+    text-align: center;
+    min-width: 60px;
+    
+    .countdown-value {
+      @include flex(row, center, center);
+      font-size: 1.5rem;
+      font-weight: 700;
+      background-color: rgba($primary-color, 0.15);
+      color: $primary-color;
+      height: 60px;
+      width: 60px;
+      border-radius: 8px;
+      margin-bottom: 0.25rem;
+    }
+    
+    .countdown-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba($text-light, 0.7);
+    }
+  }
+}
+
+// Alert/popup styling
+.alert {
+  padding: 1rem;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  
+  &-primary {
+    background-color: rgba($primary-color, 0.15);
+    color: $primary-color;
+    border-left: 4px solid $primary-color;
+  }
+  
+  &-secondary {
+    background-color: rgba($secondary-color, 0.15);
+    color: darken($secondary-color, 15%);
+    border-left: 4px solid $secondary-color;
+  }
+  
+  &-success {
+    background-color: rgba($tertiary-color, 0.15);
+    color: darken($tertiary-color, 10%);
+    border-left: 4px solid $tertiary-color;
+  }
+  
+  &-danger {
+    background-color: rgba($danger-color, 0.15);
+    color: darken($danger-color, 5%);
+    border-left: 4px solid $danger-color;
+  }
+  
+  &-dismissible {
+    padding-right: 3rem;
+    
+    .close-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 1.25rem;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Custom modal/popup
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($background-dark, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.popup {
+  background-color: $background-dark;
+  border-radius: $border-radius;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  max-width: 90%;
+  width: 500px;
+  padding: 2rem;
+  position: relative;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  color: $text-light;
+  
+  &.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  &-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba($primary-color, 0.2);
+    position: relative;
+    
+    h3 {
+      font-family: $font-title;
+      color: #ffffff;
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: rgba($text-light, 0.6);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: $danger-color;
+      }
+    }
+  }
+  
+  &-content {
+    margin-bottom: 1.5rem;
+  }
+  
+  &-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  &-success {
+    .popup-header h3 {
+      color: $tertiary-color;
+    }
+  }
+  
+  &-danger {
+    .popup-header h3 {
+      color: $danger-color;
+    }
+  }
+}
+
+// Animation for energy icons
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
+
+// Class selection in registration
+.character-class-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  
+  @include respond-to(md) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .class-option {
+    flex: 1;
+    min-width: 250px;
+    border: 2px solid rgba($primary-color, 0.2);
+    border-radius: $border-radius;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    background-color: $background-dark;
+    color: $text-light;
+    
+    &:hover {
+      border-color: rgba($primary-color, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    &.selected {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+      box-shadow: 0 5px 15px rgba($primary-color, 0.15);
+      
+      &::after {
+        content: "✓";
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: $primary-color;
+        color: white;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+    }
+    
+    .class-radio {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .class-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .class-icon {
+      width: 50px;
+      height: 50px;
+      background-color: rgba($primary-color, 0.1);
+      border-radius: $border-radius;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $primary-color;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .class-details {
+      flex-grow: 1;
+      
+      h4 {
+        margin: 0 0 0.5rem;
+        color: $primary-color;
+        font-family: $font-title;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: rgba($text-light, 0.8);
+      }
+    }
+  }
+}
+
+// Stats card
+.stat-card {
+  padding: $card-padding;
+  background-color: $card-background;
+  border-radius: $border-radius;
+  text-align: center;
+  box-shadow: $card-shadow;
+  color: $text-light;
+  margin: $card-margin;
+  
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: rgba($text-light, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Action card
+.action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $card-padding;
+  background-color: $card-background;
+  border-radius: $border-radius;
+  transition: $transition-medium;
+  text-align: center;
+  color: $text-light;
+  margin: $card-margin;
+  height: 100%;
+  
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+  
+  .action-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: $primary-color;
+  }
+  
+  .action-label {
+    font-weight: 700;
+    color: $text-light;
+  }
+}
+
+// Button styles
+.btn {
+  background-color: $primary-color;
+  color: #1c1a1d;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: $border-radius;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: $button-shadow;
+  transition: $transition-medium;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  &-success {
+    background-color: $tertiary-color;
+    color: #1c1a1d;
+  }
+  
+  &-secondary {
+    background-color: $secondary-color;
+    color: #1c1a1d;
+  }
+  
+  &-primary {
+    background-color: $primary-color;
+    color: #1c1a1d;
+  }
+  
+  &-danger {
+    background-color: $danger-color;
+    color: $text-light; 
+  }
+}
+
+// Auth Popup
+.auth-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $overlay-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+  
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.auth-popup-container {
+  width: 90%;
+  max-width: 450px;
+  background-color: $background-light;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 2px solid $primary-color;
+  overflow: hidden;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  
+  .visible & {
+    transform: translateY(0);
+  }
+}
+
+.auth-popup-content {
+  padding: 2rem;
+  position: relative;
+}
+
+.auth-popup-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: $text-light;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.auth-popup-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: $primary-color;
+  text-align: center;
+  font-family: $font-title;
+}
+
+.auth-popup-description {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: $text-light;
+}
+
+.auth-popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  
+  .btn-primary {
+    color: $text-dark;
+  }
+}
+
+.auth-form {
+  width: 100%;
+  
+  .form-group {
+    margin-bottom: 1rem;
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $text-light;
+      font-weight: 600;
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      border: 1px solid $primary-color;
+      background-color: $background-dark;
+      color: $text-light;
+      font-size: 1rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $secondary-color;
+        box-shadow: 0 0 0 2px rgba($secondary-color, 0.3);
+      }
+      
+      &::placeholder {
+        color: rgba($text-light, 0.5);
+      }
+    }
+  }
+  
+  .auth-error {
+    background-color: rgba($danger-color, 0.1);
+    border-left: 3px solid $danger-color;
+    color: lighten($danger-color, 20%);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.9rem;
+  }
+  
+  .btn-text {
+    background: none;
+    border: none;
+    color: $primary-color;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $secondary-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Welcome page buttons
+.welcome-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .btn {
+    min-width: 180px;
+    
+    @media (max-width: 576px) {
+      width: 100%;
+    }
+  }
+}

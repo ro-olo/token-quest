@@ -1,0 +1,480 @@
+@import 'variables';
+@import 'mixins';
+
+// Navbar
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $navbar-height;
+  background: linear-gradient(to bottom, $background-dark, #000000);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  
+  .container {
+    height: 100%;
+    @include flex(row, center, center);
+  }
+  
+  .logo {
+    position: absolute;
+    left: 1rem;
+    @include flex(row, flex-start, center);
+    text-decoration: none;
+    
+    .logo-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+      color: $primary-color;
+      filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+    }
+    
+    .logo-text {
+      font-family: $font-title;
+      font-size: 1.5rem;
+      color: $primary-color;
+      font-weight: 700;
+    }
+  }
+  
+  .navbar-right {
+    position: absolute;
+    right: 1rem;
+    @include flex(row, flex-end, center);
+    gap: 1rem;
+  }
+  
+  .user-greeting {
+    font-family: $font-title;
+    color: $text-light;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+    display: none;
+    
+    @include respond-to(md) {
+      display: block;
+    }
+    
+    /* Make user greeting clickable and styled like a link */
+    color: $text-light;
+    font-weight: 600;
+    margin-right: 1rem;
+    padding: 0.5rem;
+    border-radius: $border-radius;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+  
+  .nav-links {
+    @include flex(row, center, center);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    @media (max-width: $breakpoint-md) {
+      display: none;
+    }
+    
+    &.desktop-nav {
+      display: flex;
+      
+      @media (max-width: $breakpoint-md) {
+        display: none;
+      }
+    }
+    
+    .nav-item {
+      margin: 0 0.25rem;
+      
+      @include respond-to(md) {
+        margin: 0 0.5rem;
+      }
+      
+      .nav-link {
+        display: block;
+        padding: 0.5rem;
+        color: rgba($text-light, 0.7);
+        text-decoration: none;
+        transition: $transition-fast;
+        font-size: 0.9rem;
+        
+        @include respond-to(md) {
+          font-size: 1rem;
+        }
+        
+        &:hover, &.active {
+          color: $text-light;
+        }
+        
+        &.active {
+          position: relative;
+          
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background-color: $secondary-color;
+            border-radius: 3px;
+          }
+        }
+        
+        i {
+          margin-right: 0.35rem;
+        }
+      }
+    }
+  }
+  
+  .logout-button {
+    background: transparent;
+    border: none;
+    color: $text-light;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $primary-color;
+    }
+    
+    i {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: $text-light;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    width: 44px;
+    height: 44px;
+    box-shadow: none;
+    transition: $transition-fast;
+    
+    &:hover {
+      color: $primary-color;
+      transform: scale(1.1);
+    }
+    
+    @include respond-to(md) {
+      display: none;
+    }
+  }
+  
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    top: $navbar-height;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background-color: rgba($background-dark, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-200%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    
+    &.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    
+    .nav-links {
+      display: flex !important;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      
+      .nav-item {
+        width: 100%;
+        margin: 0;
+        
+        .nav-link {
+          padding: 0.75rem 0;
+          width: 100%;
+          font-size: 1.1rem;
+          display: flex;
+          align-items: center;
+          
+          i {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+          }
+          
+          &.active::after {
+            display: none;
+          }
+        }
+      }
+    }
+    
+    @include respond-to(md) {
+      display: none;
+    }
+  }
+  
+  @include respond-to(md) {
+    .nav-links {
+      display: flex;
+    }
+  }
+}
+
+// Footer
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $footer-height;
+  background-color: $background-dark;
+  color: $text-light;
+  padding: 1.5rem 0;
+  position: relative;
+  z-index: 10;
+  box-shadow: none;
+  
+  .container {
+    height: 100%;
+    @include flex(row, center, center);
+  }
+  
+  .copyright {
+    font-size: 0.85rem;
+    color: rgba($text-light, 0.7);
+  }
+  
+  .footer-links {
+    position: absolute;
+    right: 1rem;
+    @include flex(row, flex-end, center);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    .footer-item {
+      margin: 0 0.5rem;
+      
+      .footer-link {
+        color: rgba($text-light, 0.7);
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: $transition-fast;
+        
+        &:hover {
+          color: $text-light;
+        }
+      }
+    }
+  }
+}
+
+// Modal
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($background-dark, 0.7);
+  backdrop-filter: blur(4px);
+  @include flex(row, center, center);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: $transition-medium;
+  
+  &.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  .modal {
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: $background-light;
+    border-radius: $card-border-radius;
+    box-shadow: $card-shadow;
+    transform: translateY(20px);
+    transition: $transition-medium;
+    
+    &.open {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      @include flex(row, space-between, center);
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid rgba($primary-color, 0.1);
+      
+      .modal-title {
+        font-family: $font-title;
+        font-size: 1.5rem;
+        margin: 0;
+        color: $primary-color;
+      }
+      
+      .modal-close {
+        background: none;
+        border: none;
+        color: rgba($text-dark, 0.5);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        box-shadow: none;
+        transition: $transition-fast;
+        
+        &:hover {
+          color: $danger-color;
+        }
+      }
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .modal-footer {
+      @include flex(row, flex-end, center);
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid rgba($primary-color, 0.1);
+      gap: 0.75rem;
+    }
+  }
+}
+
+// Backdrop effect and scroll transition
+body {
+  background: linear-gradient(to bottom, $background-dark, #000000);
+  min-height: 100vh;
+}
+
+.app {
+  position: relative;
+  
+  &::before, &::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  &::before {
+    background: linear-gradient(to bottom, $background-dark, #000000);
+    opacity: 1;
+  }
+  
+  &::after {
+    background: linear-gradient(135deg, $background-dark, #0c0c0c);
+    opacity: 0;
+  }
+  
+  &.scrolled::before {
+    opacity: 0;
+  }
+  
+  &.scrolled::after {
+    opacity: 1;
+  }
+}
+
+// Data display
+.data-section {
+  margin-bottom: 2rem;
+  
+  .data-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba($primary-color, 0.2);
+    padding-bottom: 0.5rem;
+  }
+}
+
+// Layout grid
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1.5rem;
+  
+  .col-1 { grid-column: span 1; }
+  .col-2 { grid-column: span 2; }
+  .col-3 { grid-column: span 3; }
+  .col-4 { grid-column: span 4; }
+  .col-5 { grid-column: span 5; }
+  .col-6 { grid-column: span 6; }
+  .col-7 { grid-column: span 7; }
+  .col-8 { grid-column: span 8; }
+  .col-9 { grid-column: span 9; }
+  .col-10 { grid-column: span 10; }
+  .col-11 { grid-column: span 11; }
+  .col-12 { grid-column: span 12; }
+  
+  @media (max-width: $breakpoint-md) {
+    .col-md-1 { grid-column: span 1; }
+    .col-md-2 { grid-column: span 2; }
+    .col-md-3 { grid-column: span 3; }
+    .col-md-4 { grid-column: span 4; }
+    .col-md-5 { grid-column: span 5; }
+    .col-md-6 { grid-column: span 6; }
+    .col-md-7 { grid-column: span 7; }
+    .col-md-8 { grid-column: span 8; }
+    .col-md-9 { grid-column: span 9; }
+    .col-md-10 { grid-column: span 10; }
+    .col-md-11 { grid-column: span 11; }
+    .col-md-12 { grid-column: span 12; }
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    .col-sm-1 { grid-column: span 1; }
+    .col-sm-2 { grid-column: span 2; }
+    .col-sm-3 { grid-column: span 3; }
+    .col-sm-4 { grid-column: span 4; }
+    .col-sm-5 { grid-column: span 5; }
+    .col-sm-6 { grid-column: span 6; }
+    .col-sm-7 { grid-column: span 7; }
+    .col-sm-8 { grid-column: span 8; }
+    .col-sm-9 { grid-column: span 9; }
+    .col-sm-10 { grid-column: span 10; }
+    .col-sm-11 { grid-column: span 11; }
+    .col-sm-12 { grid-column: span 12; }
+  }
+}
