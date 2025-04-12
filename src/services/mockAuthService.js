@@ -168,3 +168,11 @@ export const setupAuthObserver = (callback) => {
 
 // Initialize mock database
 initMockDatabase();
+
+// Utility function to reset all users (for testing)
+export const resetUserDatabase = () => {
+  localStorage.removeItem(USERS_STORAGE_KEY);
+  clearCurrentUser();
+  initMockDatabase();
+  return true;
+};

@@ -1178,3 +1178,20 @@
     color: $text-light;
   }
 }
+
+// Reset database button
+.reset-button {
+  background-color: transparent;
+  color: $primary-color;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+}

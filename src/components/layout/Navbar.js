@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
+import { resetUserDatabase } from '../../services/mockAuthService';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,6 +24,16 @@ const Navbar = () => {
       await logoutUser();
     } catch (err) {
       console.error('Errore durante il logout:', err);
+    }
+  };
+
+  // Reset del database utente
+  const handleResetDatabase = () => {
+    try {
+      resetUserDatabase();
+      window.location.href = '/';
+    } catch (err) {
+      console.error('Errore durante il reset del database:', err);
     }
   };
 
@@ -72,6 +83,15 @@ const Navbar = () => {
             </>
           )}
 
+          {/* Reset Database button */}
+          <button 
+            className="reset-button" 
+            onClick={handleResetDatabase}
+            title="Reset utenti per nuovo accesso"
+          >
+            <i className="fas fa-redo-alt"></i>
+          </button>
+          
           {/* Mobile Menu Toggle - always visible */}
           <button className="mobile-toggle" onClick={toggleMobileMenu}>
             <i className={mobileMenuOpen ? "fas fa-times" : "fas fa-bars"}></i>
