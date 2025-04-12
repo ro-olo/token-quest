@@ -174,17 +174,19 @@ const Rewards = () => {
               <div key={`reward-${reward.id}-${index}`} className={`reward-card ${reward.redeemed ? 'redeemed' : (user?.energy >= reward.energyCost ? '' : 'locked')}`}>
                 <div className="reward-card-header">
                   <h4 className="reward-card-title">{reward.title}</h4>
-                  <div className="reward-card-cost">
-                    <i className="fas fa-bolt"></i> {reward.energyCost || 0}
-                  </div>
                 </div>
                 
                 <p className="reward-card-description">{reward.description}</p>
                 
                 <div className="reward-card-footer">
-                  <div className="reward-type">
-                    <i className={`fas ${reward.icon || 'fa-star'}`}></i>
-                    {reward.category || 'Svago'}
+                  <div className="reward-left">
+                    <div className="reward-card-cost">
+                      <i className="fas fa-bolt"></i> {reward.energyCost || 0}
+                    </div>
+                    <div className="reward-type">
+                      <i className={`fas ${reward.icon || 'fa-star'}`}></i>
+                      {reward.category || 'Svago'}
+                    </div>
                   </div>
                   
                   <div className="reward-actions">
@@ -192,7 +194,7 @@ const Rewards = () => {
                       <>
                         <button 
                           onClick={() => handleRedeemReward(reward.id)}
-                          className="btn btn-primary"
+                          className="btn btn-create"
                           disabled={user?.energy < reward.energyCost}
                         >
                           {user?.energy >= reward.energyCost ? 'Riscatta' : 'Insufficiente'}

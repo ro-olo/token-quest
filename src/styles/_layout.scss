@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   height: $navbar-height;
-  background: linear-gradient(to bottom, $background-dark, #000000);
+  background: #000000;
   backdrop-filter: blur(8px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 100;
@@ -377,7 +377,7 @@
 
 // Backdrop effect and scroll transition
 body {
-  background: linear-gradient(to bottom, $background-dark, #000000);
+  background: #000000;
   min-height: 100vh;
 }
 
@@ -399,12 +399,12 @@ body {
   }
   
   &::before {
-    background: linear-gradient(to bottom, $background-dark, #000000);
+    background: #000000;
     opacity: 1;
   }
   
   &::after {
-    background: linear-gradient(135deg, $background-dark, #0c0c0c);
+    background: #000000;
     opacity: 0;
   }
   

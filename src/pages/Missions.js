@@ -180,7 +180,7 @@ const Missions = () => {
                       <>
                         <button 
                           onClick={() => handleCompleteMission(mission.id)}
-                          className="btn btn-success"
+                          className="btn btn-create"
                         >
                           Completa
                         </button>

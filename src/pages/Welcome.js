@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 import AuthPopup from '../components/ui/AuthPopup';
 
 const Welcome = () => {
-  const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const { user } = useUser();
+  const navigate = useNavigate();
 
+  // If user is already logged in, redirect to dashboard
   useEffect(() => {
-    // Always show the popup for testing
-    setShowAuthPopup(true);
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleAuthClose = () => {
+    // User cannot close the auth popup if not logged in
+    // This is a fallback in case the button is clicked somehow
+    if (!user) {
+      return;
+    }
     
-    // Clear any previous popup visibility setting
-    localStorage.removeItem('tokenquest_seen_popup');
-  }, []);
-  
-  const handleClosePopup = () => {
-    setShowAuthPopup(false);
-    // Mark that the user has seen the popup
-    localStorage.setItem('tokenquest_seen_popup', 'true');
+    // If user is logged in, navigate to dashboard
+    navigate('/dashboard');
   };
 
   return (
-    <>
-      {showAuthPopup && <AuthPopup onClose={handleClosePopup} />}
-      <div className="welcome-page">
-        <div className="welcome-content fade-in">
-          <img src="/logo.png" alt="Token Quest" className="logo" />
-          <h1>Token Quest</h1>
-          <p>
-            Trasforma le tue attività quotidiane in un'epica avventura fantasy. 
-            Completa missioni, guadagna Frammenti di Energia e sblocca ricompense magiche.
-          </p>
-        </div>
-      </div>
-    </>
+    <div className="welcome-page dark-bg">
+      {/* Auth popup is always visible on the welcome page */}
+      <AuthPopup onClose={handleAuthClose} />
+    </div>
   );
 };
 

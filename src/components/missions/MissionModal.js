@@ -97,7 +97,7 @@ const MissionModal = ({ mission, onClose, onSave }) => {
           <button onClick={onClose} className="btn btn-secondary">
             Annulla
           </button>
-          <button onClick={handleSubmit} className="btn btn-primary">
+          <button onClick={handleSubmit} className="btn btn-create">
             {mission ? 'Salva Modifiche' : 'Crea Missione'}
           </button>
         </div>

@@ -199,7 +199,7 @@ const Dashboard = () => {
                         {!mission.completed ? (
                           <button 
                             onClick={() => handleCompleteMission(mission.id)}
-                            className="btn btn-primary"
+                            className="btn btn-create"
                           >
                             Completa
                           </button>
@@ -215,7 +215,7 @@ const Dashboard = () => {
                     <div className="add-card-content">
                       <i className="fas fa-plus-circle add-icon"></i>
                       <h4 className="add-card-title">Aggiungi una Missione</h4>
-                      <Link to="/missions/new" className="btn btn-secondary">Crea</Link>
+                      <Link to="/missions/new" className="btn btn-create">Crea</Link>
                     </div>
                   </div>
                 </div>
@@ -232,7 +232,7 @@ const Dashboard = () => {
           ) : (
             <div className="empty-state">
               <p>Non hai ancora creato nessuna missione.</p>
-              <Link to="/missions" className="btn btn-secondary">Crea la tua prima missione</Link>
+              <Link to="/missions" className="btn btn-create">Crea la tua prima missione</Link>
             </div>
           )}
         </div>
@@ -265,18 +265,18 @@ const Dashboard = () => {
                     <div key={`reward-${reward.id}-${index}`} className={`reward-card ${user?.energy >= reward.energyCost ? '' : 'locked'}`}>
                       <div className="reward-card-header">
                         <h4 className="reward-card-title">{reward.title}</h4>
-                        <div className="reward-card-cost">
-                          <i className="fas fa-bolt"></i> {reward.energyCost}
-                        </div>
                       </div>
                       
                       <p className="reward-card-description">{reward.description}</p>
                       
                       <div className="reward-card-footer">
+                        <div className="reward-card-cost">
+                          <i className="fas fa-bolt"></i> {reward.energyCost}
+                        </div>
                         <div className="button-container">
                           <button 
                             onClick={() => handleRedeemReward(reward.id)}
-                            className="btn btn-secondary"
+                            className="btn btn-create"
                             disabled={user?.energy < reward.energyCost}
                           >
                             {user?.energy >= reward.energyCost ? 'Riscatta' : 'Energia insufficiente'}
@@ -291,7 +291,7 @@ const Dashboard = () => {
                     <div className="add-card-content">
                       <i className="fas fa-plus-circle add-icon"></i>
                       <h4 className="add-card-title">Aggiungi una Ricompensa</h4>
-                      <Link to="/rewards/new" className="btn btn-secondary">Crea</Link>
+                      <Link to="/rewards/new" className="btn btn-create">Crea</Link>
                     </div>
                   </div>
                 </div>
@@ -308,7 +308,7 @@ const Dashboard = () => {
           ) : (
             <div className="empty-state">
               <p>Non hai ancora creato nessuna ricompensa.</p>
-              <Link to="/rewards" className="btn btn-secondary">Crea la tua prima ricompensa</Link>
+              <Link to="/rewards" className="btn btn-create">Crea la tua prima ricompensa</Link>
             </div>
           )}
         </div>

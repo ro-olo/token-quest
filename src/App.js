@@ -20,7 +20,7 @@ import { initDefaultMissions, initDefaultRewards } from './utils/dataUtils';
 
 // Componente AppContent per utilizzare useLocation
 function AppContent() {
-  const { currentUser } = useUser();
+  const { user } = useUser(); // Changed from currentUser to user to match UserContext
   const location = useLocation();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function AppContent() {
   }, []);
 
   // Mostra il footer solo nella dashboard
-  const showFooter = currentUser && location.pathname === '/dashboard';
+  const showFooter = user && location.pathname === '/dashboard';
 
   return (
     <div className="app">
@@ -38,13 +38,13 @@ function AppContent() {
       <Navbar />
       <main className="main-content">
         <Routes>
-          <Route path="/" element={!currentUser ? <Welcome /> : <Navigate to="/dashboard" />} />
-          <Route path="/register" element={!currentUser ? <Register /> : <Navigate to="/dashboard" />} />
-          <Route path="/login" element={!currentUser ? <Login /> : <Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to="/" />} />
-          <Route path="/missions" element={currentUser ? <Missions /> : <Navigate to="/" />} />
-          <Route path="/rewards" element={currentUser ? <Rewards /> : <Navigate to="/" />} />
-          <Route path="/profile" element={currentUser ? <Profile /> : <Navigate to="/" />} />
+          <Route path="/" element={!user ? <Welcome /> : <Navigate to="/dashboard" />} />
+          <Route path="/register" element={!user ? <Register /> : <Navigate to="/dashboard" />} />
+          <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+          <Route path="/missions" element={user ? <Missions /> : <Navigate to="/" />} />
+          <Route path="/rewards" element={user ? <Rewards /> : <Navigate to="/" />} />
+          <Route path="/profile" element={user ? <Profile /> : <Navigate to="/" />} />
         </Routes>
       </main>
       {showFooter && <Footer />}

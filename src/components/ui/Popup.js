@@ -46,13 +46,7 @@ const Popup = ({
       >
         <div className="popup-header">
           <h3>{title}</h3>
-          <button 
-            className="close-btn" 
-            onClick={onClose}
-            aria-label="Close"
-          >
-            &times;
-          </button>
+          {/* Removed the close button (X) as requested */}
         </div>
         
         <div className="popup-content">

@@ -14,13 +14,23 @@ const AuthPopup = ({ onClose }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { registerUser, loginUser } = useUser();
+  const { registerUser, loginUser, user } = useUser();
 
   useEffect(() => {
     // Show popup immediately - no delay
     setIsVisible(true);
-    console.log('Auth popup component mounted!');
   }, []);
+
+  // Watch for user authentication status and redirect when authenticated
+  useEffect(() => {
+    if (user) {
+      console.log('User authenticated, redirecting to dashboard');
+      // Small timeout to ensure all state updates are processed
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 100);
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,8 +47,7 @@ const AuthPopup = ({ onClose }) => {
     
     try {
       await loginUser(formData.email, formData.password);
-      onClose();
-      navigate('/dashboard');
+      // No need to navigate here, the useEffect will handle it
     } catch (err) {
       setError(err.message || 'Errore durante l\'accesso. Riprova più tardi.');
     } finally {
@@ -70,8 +79,7 @@ const AuthPopup = ({ onClose }) => {
     
     try {
       await registerUser(formData.email, formData.password, formData.displayName);
-      onClose();
-      navigate('/dashboard');
+      // No need to navigate here, the useEffect will handle it
     } catch (err) {
       setError(err.message || 'Errore durante la registrazione. Riprova più tardi.');
     } finally {
@@ -115,7 +123,7 @@ const AuthPopup = ({ onClose }) => {
                 <button type="submit" className="btn btn-primary" disabled={loading}>
                   {loading ? 'Accesso in corso...' : 'Accedi'}
                 </button>
-                <button type="button" className="btn btn-text" onClick={() => setMode('options')}>
+                <button type="button" className="btn btn-secondary" onClick={() => setMode('options')}>
                   Indietro
                 </button>
               </div>
@@ -177,11 +185,12 @@ const AuthPopup = ({ onClose }) => {
                   required
                 />
               </div>
+              
               <div className="auth-popup-actions">
                 <button type="submit" className="btn btn-primary" disabled={loading}>
                   {loading ? 'Registrazione in corso...' : 'Registrati'}
                 </button>
-                <button type="button" className="btn btn-text" onClick={() => setMode('options')}>
+                <button type="button" className="btn btn-secondary" onClick={() => setMode('options')}>
                   Indietro
                 </button>
               </div>
@@ -191,11 +200,26 @@ const AuthPopup = ({ onClose }) => {
         
       default: // options
         return (
-          <>
-            <h2 className="auth-popup-title">Benvenuto ad Token Quest!</h2>
+          <div className="auth-options">
+            <h2 className="auth-popup-title">Token Quest</h2>
             <p className="auth-popup-description">
-              Gestisci le tue attività in stile fantasy, guadagna energia e riscatta ricompense.
+              Trasforma le tue attività quotidiane in un'avventura fantasy.
             </p>
+            
+            <div className="auth-popup-features">
+              <div className="feature">
+                <i className="fas fa-scroll"></i>
+                <span>Missioni personalizzate</span>
+              </div>
+              <div className="feature">
+                <i className="fas fa-gem"></i>
+                <span>Ricompense motivanti</span>
+              </div>
+              <div className="feature">
+                <i className="fas fa-bolt"></i>
+                <span>Sistema Token ed Energia</span>
+              </div>
+            </div>
             
             <div className="auth-popup-actions">
               <button className="btn btn-primary" onClick={() => setMode('register')}>
@@ -205,7 +229,7 @@ const AuthPopup = ({ onClose }) => {
                 <i className="fas fa-sign-in-alt"></i> Accedi
               </button>
             </div>
-          </>
+          </div>
         );
     }
   };
@@ -214,10 +238,6 @@ const AuthPopup = ({ onClose }) => {
     <div className={`auth-popup-overlay ${isVisible ? 'visible' : ''}`} style={{zIndex: 9999}}>
       <div className="auth-popup-container">
         <div className="auth-popup-content">
-          <button className="auth-popup-close" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
-          
           {renderContent()}
         </div>
       </div>

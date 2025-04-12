@@ -282,6 +282,7 @@ export const UserProvider = ({ children }) => {
   };
   
   const value = {
+    user: currentUser, // Add alias to maintain consistency with our components
     currentUser,
     userData,
     loading,

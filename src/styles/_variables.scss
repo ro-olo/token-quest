@@ -3,9 +3,9 @@ $primary-color: #fdf267;       // Yellow - main theme color
 $secondary-color: #ffc42d;     // Orange-yellow - for accents and highlights
 $tertiary-color: #fdd154;      // Light orange - for success states
 $danger-color: #8b0000;        // Dark red - for errors and dangers
-$background-dark: #1c1a1d;     // Dark grey - primary background
-$background-light: #1c1a1d;    // Dark grey - card background
-$card-background: #2f2b30b1;   // Slightly lighter grey - for cards
+$background-dark: #000000;     // Pure black - primary background
+$background-light: #1c1a1d;    // Dark grey - secondary background
+$card-background: rgba(28, 26, 29, 0.8);   // Current main background with 0.8 opacity
 $text-light: #ffffff;          // White - text on dark background
 $text-dark: #1c1a1d;           // Dark grey - text on light background (buttons)
 $overlay-color: rgba(0, 0, 0, 0.7); // Semi-transparent overlay

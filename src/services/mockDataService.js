@@ -9,57 +9,121 @@ const REWARDS_STORAGE_KEY = 'tokenquest_mock_rewards';
 const DEFAULT_MISSIONS = [
   {
     id: uuidv4(),
-    title: 'Completare un Giorno di Lavoro Reale',
-    description: 'Completa una giornata di lavoro nei regni mortali',
+    title: 'Studio del Tomo Antico',
+    description: 'Una mezz\'ora passata a decifrare rune dimenticate.',
+    energyReward: 1,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Apprendistato alla Torre di Cristallo',
+    description: 'Mezza giornata di studio sotto l\'occhio vigile di un arcimago.',
+    energyReward: 4,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Ritiro dell\'Erudito Supremo',
+    description: 'Una giornata intera immersi nello studio dei segreti dell\'universo.',
     energyReward: 8,
     completed: false,
     createdAt: new Date().toISOString()
   },
   {
     id: uuidv4(),
-    title: 'Allenamento del Guerriero',
-    description: 'Mezz\'ora di attivitu00e0 fisica per rafforzare il corpo',
-    energyReward: 2,
+    title: 'Servizio al Castello Reale',
+    description: 'Giornata intera dedicata al lavoro presso la corte del re.',
+    energyReward: 8,
     completed: false,
     createdAt: new Date().toISOString()
   },
   {
     id: uuidv4(),
-    title: 'Studio dei Tomi Antichi',
-    description: '30 minuti di studio per ampliare la tua conoscenza',
+    title: 'Turno alla Locanda del Drago',
+    description: 'Mezza giornata di lavoro tra taverne e viandanti.',
+    energyReward: 4,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Addestramento del Cavaliere Errante',
+    description: '30 minuti di allenamento con la spada o arti marziali.',
     energyReward: 3,
     completed: false,
     createdAt: new Date().toISOString()
   },
   {
     id: uuidv4(),
-    title: 'Purificazione delle Stoviglie Incantate',
-    description: 'Lavare i piatti della fortezza',
-    energyReward: 2,
+    title: 'Sfida della Forza Celeste',
+    description: 'Un\'ora di allenamento sotto la guida dei guardiani del tempio.',
+    energyReward: 5,
     completed: false,
     createdAt: new Date().toISOString()
   },
   {
     id: uuidv4(),
-    title: 'Preparazione del Banchetto',
-    description: 'Cucinare un pasto degno di un eroe',
-    energyReward: 2,
-    completed: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: uuidv4(),
-    title: 'Incantesimo di Lavaggio',
-    description: 'Fare una lavatrice per purificare gli abiti',
+    title: 'Pulizia della Tana del Goblin',
+    description: 'Lava i piatti e ripulisci gli angoli oscuri della cucina.',
     energyReward: 3,
     completed: false,
     createdAt: new Date().toISOString()
   },
   {
     id: uuidv4(),
-    title: 'Purificazione del Reame',
-    description: '15 minuti di faccende domestiche',
+    title: 'Pozioni e Preparati',
+    description: 'Cucina un pasto magico, degno di un banchetto elfico.',
+    energyReward: 3,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Incantesimo di Detersione Rapida',
+    description: '15 minuti per scacciare la polvere maledetta.',
     energyReward: 1,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Purificazione della Dimora',
+    description: '30 minuti di pulizie profonde con spazzole incantate.',
+    energyReward: 2,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Rituale della Lavatrice Sacra',
+    description: 'Lava gli abiti infusi di magia quotidiana.',
+    energyReward: 3,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Missione del Mercato di Mezzanotte',
+    description: 'Spesa settimanale tra mercanti e spezie rare.',
+    energyReward: 3,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Commissione dell\'Usignolo',
+    description: 'Brevi missioni nella città (posta, consegne).',
+    energyReward: 1,
+    completed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Incarico della Corporazione',
+    description: 'Commissioni impegnative degne di un avventuriero navigato.',
+    energyReward: 3,
     completed: false,
     createdAt: new Date().toISOString()
   }
@@ -69,33 +133,41 @@ const DEFAULT_MISSIONS = [
 const DEFAULT_REWARDS = [
   {
     id: uuidv4(),
-    title: 'Avventura Videoludica',
-    description: 'Concediti una sessione di gioco',
-    energyCost: 4,
-    redeemed: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: uuidv4(),
-    title: 'Visione di Leggende Visive',
-    description: 'Guarda un film o una serie tv',
-    energyCost: 4,
-    redeemed: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: uuidv4(),
-    title: 'Leggere il Tomo Antico',
-    description: 'Perditi tra le pagine di un buon libro',
+    title: 'Duello Virtuale nell\'Arena delle Ombre',
+    description: '1 ora di videogiochi tra magie e battaglie epiche.',
     energyCost: 3,
     redeemed: false,
     createdAt: new Date().toISOString()
   },
   {
     id: uuidv4(),
-    title: 'Forgiare Meraviglie',
-    description: 'Dedicati ad attivitu00e0 creative e artistiche',
+    title: 'Consiglio dei Meeples',
+    description: '1 ora di giochi da tavolo con altri avventurieri.',
     energyCost: 3,
+    redeemed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Visione dell\'Oracolo',
+    description: 'Guarda un film o una serie custodita negli archivi proibiti (2 ore).',
+    energyCost: 6,
+    redeemed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: 'Lettura del Grimorio Incantato',
+    description: '30 minuti di lettura tra storie leggendarie.',
+    energyCost: 2,
+    redeemed: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    title: '🎖️ Bonus Massimo: Regalati Qualcosa!',
+    description: 'Premiati con qualcosa di leggendario!',
+    energyCost: 100,
     redeemed: false,
     createdAt: new Date().toISOString()
   }

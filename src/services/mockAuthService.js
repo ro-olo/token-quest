@@ -63,8 +63,8 @@ export const registerUser = async (email, password, displayName) => {
     email,
     password, // In a real app, this would be hashed
     displayName,
-    energy: 10,
-    totalEnergyEarned: 10,
+    energy: 0, // Changed from 10 to 0 as requested
+    totalEnergyEarned: 0, // Changed from 10 to 0 for consistency
     completedMissions: 0,
     redeemedRewards: 0,
     registrationDate: new Date().toISOString(),
