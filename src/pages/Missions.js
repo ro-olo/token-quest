@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getMissions, saveMission, deleteMission } from '../utils/dataUtils';
+import { getMissions, saveMission } from '../utils/dataUtils';
 import { useUser } from '../context/UserContext';
 import MissionModal from '../components/missions/MissionModal';
-import { resetMissions } from '../utils/resetData';
+import initializeMissions from '../utils/initMissions';
 
 const Missions = () => {
   const [missions, setMissions] = useState([]);
@@ -116,7 +115,7 @@ const Missions = () => {
   // Reset missions to default ones
   const handleResetMissions = () => {
     if (window.confirm('Sei sicuro di voler ripristinare le missioni predefinite? Tutte le missioni esistenti verranno eliminate.')) {
-      const defaultMissions = resetMissions();
+      const defaultMissions = initializeMissions();
       setMissions(defaultMissions);
       // Ricarica la pagina per vedere le modifiche
       window.location.reload();
@@ -125,11 +124,11 @@ const Missions = () => {
   
   return (
     <div className="missions-page">
-      <div className="container">
+      <div className="missions-container">
         <div className="missions-header">
           <h2>Missioni</h2>
           
-          <div className="filters-container">
+          <div className="filter-container">
             <div 
               className={`filter-item ${activeFilter === 'all' ? 'active' : ''}`} 
               onClick={() => setActiveFilter('all')}
@@ -158,19 +157,19 @@ const Missions = () => {
         </div>
         
         {filteredMissions.length > 0 ? (
-          <div className="missions-grid">
+          <div className="mission-grid">
             {filteredMissions.map(mission => (
               <div 
                 key={mission.id} 
-                className={`mission-card ${mission.completed ? 'completed' : ''}`}
+                className={`mission ${mission.completed ? 'completed' : ''}`}
               >
-                <div className="mission-card-header">
-                  <h4 className="mission-card-title">{mission.title}</h4>
+                <div className="mission-header">
+                  <h4 className="mission-title">{mission.title}</h4>
                 </div>
                 
-                <p className="mission-card-description">{mission.description}</p>
+                <p className="mission-description">{mission.description}</p>
                 
-                <div className="mission-card-footer">
+                <div className="mission-footer">
                   <div className="mission-reward">
                     <i className="fas fa-bolt"></i> {mission.energyReward || 1}
                   </div>

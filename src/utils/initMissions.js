@@ -14,7 +14,7 @@ const initializeMissions = () => {
   const defaultMissions = [
     {
       id: generateUniqueId(),
-      title: 'Affrontare la Battaglia del Giorno',
+      title: 'Affrontare la Battaglia',
       description: 'Completa una giornata lavorativa',
       energyReward: 8,
       completed: false,
@@ -30,7 +30,7 @@ const initializeMissions = () => {
     },
     {
       id: generateUniqueId(),
-      title: 'Consultare gli Antichi Tomi',
+      title: 'Consultare i Tomi',
       description: 'Dedica mezz\'ora allo studio o alla lettura',
       energyReward: 3,
       completed: false,
@@ -38,15 +38,15 @@ const initializeMissions = () => {
     },
     {
       id: generateUniqueId(),
-      title: 'Purificare gli Strumenti del Banchetto',
-      description: 'Lava i piatti dopo un pasto',
+      title: 'Purificare le Scodelle',
+      description: 'Lava i piatti',
       energyReward: 2,
       completed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: 'Preparare il Banchetto del Viaggiatore',
+      title: 'Preparare il Banchetto',
       description: 'Prepara un pasto completo',
       energyReward: 2,
       completed: false,
@@ -54,7 +54,7 @@ const initializeMissions = () => {
     },
     {
       id: generateUniqueId(),
-      title: 'Rituale di Purificazione delle Vesti',
+      title: 'Rituale di Purificazione',
       description: 'Completa un ciclo di lavaggio e stendi i panni',
       energyReward: 3,
       completed: false,
@@ -62,7 +62,7 @@ const initializeMissions = () => {
     },
     {
       id: generateUniqueId(),
-      title: 'Difendere il Reame dalla Polvere',
+      title: 'Incantesimo di Detersione',
       description: 'Dedica un quarto d\'ora a pulire o riordinare casa',
       energyReward: 1,
       completed: false,

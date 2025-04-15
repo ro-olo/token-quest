@@ -165,57 +165,121 @@ export const resetMissions = () => {
   const defaultMissions = [
     {
       id: generateUniqueId(),
-      title: 'Affrontare la Battaglia del Giorno',
-      description: 'Completa una giornata lavorativa',
+      title: 'Studio del Tomo Antico',
+      description: 'Una mezz\'ora passata a decifrare rune dimenticate.',
+      energyReward: 1,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Apprendistato alla Torre',
+      description: 'Mezza giornata di studio sotto l\'occhio vigile di un arcimago.',
+      energyReward: 4,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Ritiro dell\'Erudito',
+      description: 'Una giornata intera immersi nello studio dei segreti dell\'universo.',
       energyReward: 8,
       completed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: "Allenamento dell'Eroe",
-      description: 'Fai 30 minuti di esercizio fisico',
-      energyReward: 2,
+      title: 'Servizio al Castello',
+      description: 'Giornata intera dedicata al lavoro presso la corte del re.',
+      energyReward: 8,
       completed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: 'Consultare gli Antichi Tomi',
-      description: 'Dedica mezz\'ora allo studio o alla lettura',
+      title: 'Turno alla Locanda',
+      description: 'Mezza giornata di lavoro tra taverne e viandanti.',
+      energyReward: 4,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Addestramento del Cavaliere',
+      description: '30 minuti di allenamento con la spada o arti marziali.',
       energyReward: 3,
       completed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: 'Purificare gli Strumenti del Banchetto',
-      description: 'Lava i piatti dopo un pasto',
-      energyReward: 2,
+      title: 'Sfida della Forza',
+      description: 'Un\'ora di allenamento sotto la guida dei guardiani del tempio.',
+      energyReward: 5,
       completed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: 'Preparare il Banchetto del Viaggiatore',
-      description: 'Prepara un pasto completo',
-      energyReward: 2,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Rituale di Purificazione delle Vesti',
-      description: 'Completa un ciclo di lavaggio e stendi i panni',
+      title: 'Pulizia della Tana',
+      description: 'Lava i piatti e ripulisci gli angoli oscuri della cucina.',
       energyReward: 3,
       completed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: 'Difendere il Reame dalla Polvere',
-      description: 'Dedica un quarto d\'ora a pulire o riordinare casa',
+      title: 'Pozioni e Preparati',
+      description: 'Cucina un pasto magico, degno di un banchetto elfico.',
+      energyReward: 3,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Incantesimo di Detersione',
+      description: '15 minuti per scacciare la polvere maledetta.',
       energyReward: 1,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Purificazione della Dimora',
+      description: '30 minuti di pulizie profonde con spazzole incantate.',
+      energyReward: 2,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Rituale della Lavatrice',
+      description: 'Lava gli abiti infusi di magia quotidiana.',
+      energyReward: 3,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Missione del Mercato',
+      description: 'Spesa settimanale tra mercanti e spezie rare.',
+      energyReward: 3,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Commissione dell\'Usignolo',
+      description: 'Brevi missioni nella città (posta, consegne).',
+      energyReward: 1,
+      completed: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: generateUniqueId(),
+      title: 'Incarico della Gilda',
+      description: 'Commissioni impegnative degne di un avventuriero navigato.',
+      energyReward: 3,
       completed: false,
       createdAt: new Date().toISOString()
     }
@@ -235,33 +299,17 @@ export const resetRewards = () => {
   const defaultRewards = [
     {
       id: generateUniqueId(),
-      title: 'Avventura Virtuale nel Regno Digitale',
-      description: 'Concediti del tempo per giocare ai tuoi videogiochi preferiti',
-      energyCost: 4,
-      redeemed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Visione delle Leggende Moderne',
-      description: 'Guardati un film o un episodio della tua serie preferita',
-      energyCost: 4,
-      redeemed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Leggere il Tomo Antico',
-      description: 'Dedica del tempo alla lettura di un libro che ti piace',
+      title: 'Duello Virtuale',
+      description: '1 ora di videogiochi tra magie e battaglie epiche.',
       energyCost: 3,
       redeemed: false,
       createdAt: new Date().toISOString()
     },
     {
       id: generateUniqueId(),
-      title: 'Creare Arte Arcana',
-      description: 'Dedica del tempo a un hobby creativo come disegno, pittura o musica',
-      energyCost: 3,
+      title: 'Lettura del Grimorio',
+      description: '30 minuti di lettura tra storie leggendarie.',
+      energyCost: 2,
       redeemed: false,
       createdAt: new Date().toISOString()
     }

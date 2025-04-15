@@ -17,7 +17,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Apprendistato alla Torre di Cristallo',
+    title: 'Apprendistato alla Torre',
     description: 'Mezza giornata di studio sotto l\'occhio vigile di un arcimago.',
     energyReward: 4,
     completed: false,
@@ -25,7 +25,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Ritiro dell\'Erudito Supremo',
+    title: 'Ritiro dell\'Erudito',
     description: 'Una giornata intera immersi nello studio dei segreti dell\'universo.',
     energyReward: 8,
     completed: false,
@@ -33,7 +33,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Servizio al Castello Reale',
+    title: 'Servizio al Castello',
     description: 'Giornata intera dedicata al lavoro presso la corte del re.',
     energyReward: 8,
     completed: false,
@@ -41,7 +41,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Turno alla Locanda del Drago',
+    title: 'Turno alla Locanda',
     description: 'Mezza giornata di lavoro tra taverne e viandanti.',
     energyReward: 4,
     completed: false,
@@ -49,7 +49,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Addestramento del Cavaliere Errante',
+    title: 'Addestramento del Cavaliere',
     description: '30 minuti di allenamento con la spada o arti marziali.',
     energyReward: 3,
     completed: false,
@@ -57,7 +57,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Sfida della Forza Celeste',
+    title: 'Sfida della Forza',
     description: 'Un\'ora di allenamento sotto la guida dei guardiani del tempio.',
     energyReward: 5,
     completed: false,
@@ -65,7 +65,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Pulizia della Tana del Goblin',
+    title: 'Pulizia della Tana',
     description: 'Lava i piatti e ripulisci gli angoli oscuri della cucina.',
     energyReward: 3,
     completed: false,
@@ -81,7 +81,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Incantesimo di Detersione Rapida',
+    title: 'Incantesimo di Detersione',
     description: '15 minuti per scacciare la polvere maledetta.',
     energyReward: 1,
     completed: false,
@@ -97,7 +97,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Rituale della Lavatrice Sacra',
+    title: 'Rituale della Lavatrice',
     description: 'Lava gli abiti infusi di magia quotidiana.',
     energyReward: 3,
     completed: false,
@@ -105,7 +105,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Missione del Mercato di Mezzanotte',
+    title: 'Missione del Mercato',
     description: 'Spesa settimanale tra mercanti e spezie rare.',
     energyReward: 3,
     completed: false,
@@ -121,7 +121,7 @@ const DEFAULT_MISSIONS = [
   },
   {
     id: uuidv4(),
-    title: 'Incarico della Corporazione',
+    title: 'Incarico della Gilda',
     description: 'Commissioni impegnative degne di un avventuriero navigato.',
     energyReward: 3,
     completed: false,
@@ -133,7 +133,7 @@ const DEFAULT_MISSIONS = [
 const DEFAULT_REWARDS = [
   {
     id: uuidv4(),
-    title: 'Duello Virtuale nell\'Arena delle Ombre',
+    title: 'Duello Virtuale',
     description: '1 ora di videogiochi tra magie e battaglie epiche.',
     energyCost: 3,
     redeemed: false,
@@ -157,7 +157,7 @@ const DEFAULT_REWARDS = [
   },
   {
     id: uuidv4(),
-    title: 'Lettura del Grimorio Incantato',
+    title: 'Lettura del Grimorio',
     description: '30 minuti di lettura tra storie leggendarie.',
     energyCost: 2,
     redeemed: false,

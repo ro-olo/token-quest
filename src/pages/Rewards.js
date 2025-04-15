@@ -129,7 +129,7 @@ const Rewards = () => {
   
   return (
     <div className="rewards-page">
-      <div className="container">
+      <div className="rewards-container">
         <div className="rewards-header">
           <h2>Ricompense</h2>
           
@@ -169,7 +169,7 @@ const Rewards = () => {
         </div>
         
         {filteredRewards.length > 0 ? (
-          <div className="rewards-grid">
+          <div className="missions-grid">
             {filteredRewards.map((reward, index) => (
               <div key={`reward-${reward.id}-${index}`} className={`reward-card ${reward.redeemed ? 'redeemed' : (user?.energy >= reward.energyCost ? '' : 'locked')}`}>
                 <div className="reward-card-header">
@@ -182,10 +182,6 @@ const Rewards = () => {
                   <div className="reward-left">
                     <div className="reward-card-cost">
                       <i className="fas fa-bolt"></i> {reward.energyCost || 0}
-                    </div>
-                    <div className="reward-type">
-                      <i className={`fas ${reward.icon || 'fa-star'}`}></i>
-                      {reward.category || 'Svago'}
                     </div>
                   </div>
                   

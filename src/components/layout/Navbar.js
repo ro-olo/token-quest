@@ -41,7 +41,6 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <NavLink to={isLoggedIn ? "/dashboard" : "/"} className="logo">
-          <i className="fas fa-crown logo-icon"></i>
           <span className="logo-text">Token Quest</span>
         </NavLink>
 

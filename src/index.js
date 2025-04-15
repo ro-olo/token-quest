@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.scss';
 import App from './App';
-import { populateSampleData } from './utils/sampleData';
 
 // Funzione per generare un ID unico
 function generateUniqueId() {
@@ -116,9 +115,6 @@ function forceResetData() {
 
 // Esegui il reset dei dati
 forceResetData();
-
-// Populate sample data on first run
-populateSampleData();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

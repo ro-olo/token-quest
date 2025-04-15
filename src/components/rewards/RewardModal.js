@@ -4,9 +4,7 @@ const RewardModal = ({ reward, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    energyCost: 5,
-    category: 'entertainment',
-    icon: 'fa-tv'
+    energyCost: 5
   });
 
   // Initialize form with reward data if editing
@@ -14,9 +12,7 @@ const RewardModal = ({ reward, onClose, onSave }) => {
     if (reward) {
       setFormData({
         ...reward,
-        energyCost: reward.energyCost || 5,
-        category: reward.category || 'entertainment',
-        icon: reward.icon || 'fa-tv'
+        energyCost: reward.energyCost || 5
       });
     }
   }, [reward]);
@@ -41,19 +37,6 @@ const RewardModal = ({ reward, onClose, onSave }) => {
     e.preventDefault();
     onSave(formData);
   };
-
-  // Available reward categories with corresponding icons
-  const rewardCategories = [
-    { id: 'entertainment', name: 'Intrattenimento', icon: 'fa-tv' },
-    { id: 'gaming', name: 'Videogiochi', icon: 'fa-gamepad' },
-    { id: 'rest', name: 'Riposo', icon: 'fa-bed' },
-    { id: 'food', name: 'Cibo', icon: 'fa-utensils' },
-    { id: 'social', name: 'Sociale', icon: 'fa-users' },
-    { id: 'hobby', name: 'Hobby', icon: 'fa-palette' },
-    { id: 'outdoor', name: 'Attività all\'aperto', icon: 'fa-mountain' },
-    { id: 'shopping', name: 'Shopping', icon: 'fa-shopping-bag' },
-    { id: 'other', name: 'Altro', icon: 'fa-star' }
-  ];
 
   return (
     <div className="modal-overlay open">
@@ -106,49 +89,6 @@ const RewardModal = ({ reward, onClose, onSave }) => {
               />
               <div className="form-help">
                 Quanta energia è necessaria per riscattare questa ricompensa (1-50)
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="category">Categoria</label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={(e) => {
-                  const selectedCategory = rewardCategories.find(cat => cat.id === e.target.value);
-                  setFormData({
-                    ...formData,
-                    category: e.target.value,
-                    icon: selectedCategory ? selectedCategory.icon : 'fa-star'
-                  });
-                }}
-              >
-                {rewardCategories.map(category => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Icona</label>
-              <div className="icon-selector">
-                {rewardCategories.map(category => (
-                  <div
-                    key={category.id}
-                    className={`icon-option ${formData.icon === category.icon ? 'selected' : ''}`}
-                    onClick={() => setFormData({
-                      ...formData,
-                      category: category.id,
-                      icon: category.icon
-                    })}
-                  >
-                    <i className={`fas ${category.icon}`}></i>
-                    <span>{category.name}</span>
-                  </div>
-                ))}
               </div>
             </div>
           </form>

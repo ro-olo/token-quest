@@ -46,11 +46,12 @@
 }
 
 // Mission card
-.mission-card {
+.mission, .mission-card {
   display: flex;
   flex-direction: column;
   background-color: $card-background;
   border-radius: $border-radius;
+  border: 2px solid $text-dark;
   padding: 1.25rem;
   box-shadow: $card-shadow;
   transition: $transition-medium;
@@ -63,14 +64,14 @@
   
   &-title {
     font-family: $font-title;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     margin-bottom: 0.5rem;
-    color: $text-light;
+    color: $text-dark;
   }
   
   &-description {
-    font-size: 0.9rem;
-    color: rgba($text-light, 0.8);
+    font-size: 1rem;
+    color: rgba($text-dark, 0.8);
     margin-bottom: 1rem;
     flex-grow: 1;
   }
@@ -80,9 +81,10 @@
     justify-content: space-between;
     align-items: center;
     margin-top: auto;
+    color: #037dcb;
   }
   
-  .mission-energy {
+  .mission-reward {
     display: flex;
     align-items: center;
     color: $tertiary-color;
@@ -98,12 +100,12 @@
     border: 2px solid $tertiary-color;
   }
   
-  &.add-card {
+  &.add-mission {
     min-height: unset;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 1px dashed rgba($text-light, 0.2);
+    border: 1px dashed rgba($text-dark, 0.2);
     box-shadow: none;
     background-color: rgba($background-light, 0.05);
   }
@@ -127,55 +129,61 @@
     transform: none;
     box-shadow: none;
   }
+}
+
+// Filter styles
+.filter-item {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 2px solid $text-dark;
+  background-color: transparent;
+  color: $text-dark;
+  cursor: pointer;
+  transition: $transition-medium;
   
-  &-header {
-    @include flex(row, space-between, center);
-    margin-bottom: 0.75rem;
+  &:hover {
+   border: 2px solid $tertiary-color;
+   color: $tertiary-color;
+    cursor: pointer;
   }
   
-  &-title {
-    font-family: $font-title;
-    font-size: 1.25rem;
-    color: $primary-color;
-    margin: 0;
-    font-weight: 700;
+  &.active {
+    background-color: $background-light;
   }
+}
+
+// Filter container
+.filter-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+// Mission grid
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+// Empty state
+.empty-state {
+  text-align: center;
+  padding: 2rem;
   
-  &-description {
-    font-size: 0.95rem;
+  .empty-icon {
+    font-size: 3rem;
+    color: $text-dark;
     margin-bottom: 1rem;
-    line-height: 1.5;
-    color: $text-light;
-    flex: 1 1 auto;
   }
   
-  &-footer {
-    @include flex(row, space-between, center);
-    margin-top: auto;
-    
-    .mission-type {
-      font-size: 0.85rem;
-      color: rgba($text-light, 0.7);
-      
-      i {
-        margin-right: 0.5rem;
-        color: $primary-color;
-      }
-    }
-    
-    .mission-actions {
-      @include flex(row, flex-end, center);
-      
-      .btn {
-        font-weight: 600;
-        
-        &.btn-success {
-          background-color: $tertiary-color;
-          color: #1c1a1d;
-          font-weight: 600;
-        }
-      }
-    }
+  .empty-text {
+    color: $text-dark;
+    margin-bottom: 1rem;
   }
 }
 
@@ -185,6 +193,7 @@
   flex-direction: column;
   background-color: $card-background;
   border-radius: $border-radius;
+  border: 2px solid $text-dark;
   padding: 1.25rem;
   box-shadow: $card-shadow;
   transition: $transition-medium;
@@ -198,14 +207,14 @@
   
   &-title {
     font-family: $font-title;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     margin-bottom: 0.5rem;
-    color: $text-light;
+    color: $text-dark;
   }
   
   &-description {
-    font-size: 0.9rem;
-    color: rgba($text-light, 0.8);
+    font-size: 1rem;
+    color: rgba($text-dark, 0.8);
     margin-bottom: 1rem;
     flex-grow: 1;
   }
@@ -214,43 +223,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
-  }
-  
-  .reward-left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  &-cost {
-    display: flex;
-    align-items: center;
-    color: $tertiary-color;
-    font-weight: 600;
-    font-size: 0.95rem;
-    
-    i {
-      margin-right: 0.35rem;
-    }
-  }
-  
-  .reward-type {
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    color: rgba($text-light, 0.7);
-    
-    i {
-      margin-right: 0.35rem;
-    }
-  }
-  
-  .reward-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    color: #037dcb;
   }
   
   &.locked {
@@ -268,17 +241,12 @@
     }
   }
   
-  &.completed,
-  &.redeemed {
-    border: 2px solid $tertiary-color;
-  }
-  
   &.add-card {
     min-height: unset;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 1px dashed rgba($text-light, 0.2);
+    border: 1px dashed rgba($text-dark, 0.2);
     box-shadow: none;
     background-color: rgba($background-light, 0.05);
   }
@@ -304,8 +272,7 @@
     transition: $transition-medium;
     
     &:hover {
-      transform: scale(1.01);
-      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+      transform: scale(1.1);
     }
   }
 }
@@ -567,19 +534,17 @@
 // Energy token display
 .energy-display {
   @include flex(row, flex-start, center);
-  background-color: rgba($secondary-color, 0.15);
-  border-radius: $border-radius;
   padding: 0.5rem 1rem;
   
   .energy-icon {
-    color: $secondary-color;
+    color: #037dcb;
     margin-right: 0.5rem;
     font-size: 1.25rem;
   }
   
   .energy-amount {
     font-weight: 700;
-    color: $secondary-color;
+    color: #037dcb;
     font-size: 1.25rem;
   }
 }
@@ -593,7 +558,7 @@
   color: $primary-color;
   @include flex(row, center, center);
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   overflow: hidden;
   
   img {
@@ -619,9 +584,9 @@
     height: 1px;
     background: linear-gradient(to right, 
       transparent, 
-      rgba($secondary-color, 0.3), 
-      rgba($secondary-color, 0.5), 
-      rgba($secondary-color, 0.3), 
+      rgba($primary-color, 0.3), 
+      rgba($primary-color, 0.5), 
+      rgba($primary-color, 0.3), 
       transparent
     );
   }
@@ -632,7 +597,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: $secondary-color;
+    color: $primary-color;
     background-color: transparent;
     padding: 0 1rem;
     font-size: 1.25rem;
@@ -742,69 +707,45 @@
   }
 }
 
-// Custom modal/popup
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #000000;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  
-  &.active {
-    opacity: 1;
-    visibility: visible;
-  }
+  justify-content: center;
+  z-index: 1000;
 }
 
 .popup {
-  background-color: $background-dark;
-  border-radius: $border-radius;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  max-width: 90%;
-  width: 500px;
+  background-color: $secondary-color;
   padding: 2rem;
+  border-radius: $border-radius;
+  border: 3px solid black;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 300px;
   position: relative;
-  transform: translateY(20px);
-  opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  color: $text-light;
   
-  &.active {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  
-  &-header {
+  .popup-header {
+    @include flex(row, space-between, center);
     margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba($primary-color, 0.2);
-    position: relative;
     
     h3 {
       font-family: $font-title;
-      color: #ffffff;
-      margin: 0;
       font-size: 1.5rem;
+      margin: 0;
+      color: $text-dark;
     }
     
-    .close-btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: none;
-      border: none;
+    .popup-close {
+      color: $text-light;
       font-size: 1.5rem;
-      color: rgba($text-light, 0.6);
       cursor: pointer;
-      transition: color 0.2s ease;
+      transition: $transition-fast;
       
       &:hover {
         color: $danger-color;
@@ -812,19 +753,9 @@
     }
   }
   
-  &-content {
-    margin-bottom: 1.5rem;
-  }
-  
-  &-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-  }
-  
   &-success {
     .popup-header h3 {
-      color: $tertiary-color;
+      color: black;
     }
   }
   
@@ -1069,11 +1000,12 @@
   &-create,
   &-secondary {
     background-color: transparent;
-    color: #fdf267; 
-    border: 2px solid #fdf267;
+    color: #1c1a1d; 
+    border: 2px solid #1c1a1d;
     
     &:hover {
-      background-color: rgba(253, 242, 103, 0.1);
+      color: #037dcb;
+      border: 2px solid #037dcb;
       box-shadow: none;
       transform: none;
     }
