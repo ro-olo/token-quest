@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
-import { getMissions, getRewards, completeMission, redeemReward } from '../utils/dataUtils';
+// In src/pages/Dashboard.js
+import { 
+  getMissions,
+  getRewards,
+  completeMission,
+  redeemReward,
+  getJournalEntries,
+  saveJournalEntry,
+  deleteJournalEntry,
+  initDefaultData 
+} from '../utils/dataUtils';
 import Popup from '../components/ui/Popup';
 
 const Dashboard = () => {
   const { user, addEnergy, removeEnergy } = useUser();
   const [missions, setMissions] = useState([]);
   const [rewards, setRewards] = useState([]);
+  const [journalEntries, setJournalEntries] = useState([]);
   const [currentMissionIndex, setCurrentMissionIndex] = useState(0);
   const [currentRewardIndex, setCurrentRewardIndex] = useState(0);
   const [popup, setPopup] = useState({
@@ -17,78 +28,63 @@ const Dashboard = () => {
     type: 'default'
   });
 
-  // Load dashboard data
-  const loadData = () => {
-    const loadedMissions = getMissions();
-    const loadedRewards = getRewards();
+// Modifica la funzione loadData con controlli avanzati
+const loadData = async () => {
+  try {
+    if (!user?.uid) return; // Controllo sicurezza utente
     
-    // Sort missions: pending first, then by priority
-    const sortedMissions = [...loadedMissions].sort((a, b) => {
-      // Completed missions at the end
-      if (a.completed !== b.completed) return a.completed ? 1 : -1;
-      
-      // Sort by creation date (newest first)
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
-    
+    // Inizializza dati se necessario
+    await initDefaultData(user.uid);
+
+    // Carica dati con controllo array
+    const [loadedMissions, loadedRewards] = await Promise.all([
+      getMissions(user.uid).catch(() => []), // Fallback ad array vuoto
+      getRewards(user.uid).catch(() => [])
+    ]);
+
+    // Ordina missioni solo se array valido
+    const sortedMissions = Array.isArray(loadedMissions) 
+      ? loadedMissions.sort((a, b) => {
+          if (a.completed !== b.completed) return a.completed ? 1 : -1;
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+      : [];
+
+    // Ordina ricompense solo se array valido  
+    const sortedRewards = Array.isArray(loadedRewards)
+      ? loadedRewards
+          .filter(r => !r.redeemed)
+          .sort((a, b) => a.energyCost - b.energyCost)
+      : [];
+
     setMissions(sortedMissions);
-    
-    // Get available rewards sorted by energy cost
-    const sortedRewards = [...loadedRewards]
-      .filter(r => !r.redeemed)
-      .sort((a, b) => a.energyCost - b.energyCost);
-    
     setRewards(sortedRewards);
-  };
 
-  useEffect(() => {
-    // Carica i dati all'inizio
+  } catch (error) {
+    handleError(error, 'caricamento dati dashboard');
+    setMissions([]);
+    setRewards([]);
+  }
+};
+
+// Complete a mission
+const handleCompleteMission = async (missionId) => {
+  try {
+    await completeMission(missionId, user.uid);
+    showPopup(
+      'Missione Completata!',
+      'Hai completato la missione con successo!',
+      'success'
+    );
     loadData();
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  } catch (error) {
+    handleError(error, 'completamento della missione');
+  }
+};
 
-  // Show a popup notification
-  const showPopup = (title, message, type = 'default') => {
-    setPopup({
-      isOpen: true,
-      title,
-      message,
-      type
-    });
-  };
-
-  // Close popup
-  const closePopup = () => {
-    setPopup(prev => ({ ...prev, isOpen: false }));
-  };
-
-  // Handle mission completion directly from dashboard
-  const handleCompleteMission = (missionId) => {
-    const mission = missions.find(m => m.id === missionId);
-    if (!mission || mission.completed) return;
-    
-    // Update mission state
-    const updatedMission = completeMission(missionId);
-    
-    if (updatedMission) {
-      // Add energy reward to user
-      addEnergy(updatedMission.energyReward || 1);
-      
-      // Update missions list and reload data
-      loadData();
-      
-      // Show success popup
-      showPopup(
-        'Missione Completata!', 
-        `Hai guadagnato ${updatedMission.energyReward || 1} Frammenti di Energia.`,
-        'success'
-      );
-    }
-  };
-
-  // Handle reward redemption directly from dashboard
-  const handleRedeemReward = (rewardId) => {
+// Redeem a reward
+const handleRedeemReward = async (rewardId) => {
+  try {
     const reward = rewards.find(r => r.id === rewardId);
     if (!reward || reward.redeemed) return;
     
@@ -107,20 +103,91 @@ const Dashboard = () => {
     
     if (success) {
       // Update reward state
-      const updatedReward = redeemReward(rewardId);
+      await redeemReward(rewardId, user.uid);
+      loadData();
       
-      if (updatedReward) {
-        // Reload data
-        loadData();
-        
-        // Show success popup
-        showPopup(
-          'Ricompensa Riscattata!', 
-          `Hai speso ${updatedReward.energyCost || 0} Frammenti di Energia.`,
-          'success'
-        );
-      }
+      // Show success popup
+      showPopup(
+        'Ricompensa Riscattata!', 
+        `Hai speso ${reward.energyCost || 0} Frammenti di Energia.`,
+        'success'
+      );
     }
+  } catch (error) {
+    handleError(error, 'riscatto della ricompensa');
+  }
+};
+
+// Add useEffect to load data when component mounts
+useEffect(() => {
+  loadData();
+}, [user]);
+
+  // Show a popup notification
+  const showPopup = (title, message, type = 'default') => {
+    setPopup({
+      isOpen: true,
+      title,
+      message,
+      type
+    });
+  };
+
+  // Close popup
+  const closePopup = () => {
+    setPopup(prev => ({ ...prev, isOpen: false }));
+  };
+
+  // Load journal entries
+const loadJournalEntries = async () => {
+  try {
+    const entries = await getJournalEntries(user.uid);
+    setJournalEntries(entries);
+  } catch (error) {
+    handleError(error, 'caricamento del diario');
+  }
+};
+
+// Save a new journal entry
+const handleSaveJournalEntry = async (entry) => {
+  try {
+    const savedEntry = await saveJournalEntry(entry, user.uid);
+    setJournalEntries(prev => [...prev, savedEntry]);
+    showPopup({
+      isOpen: true,
+      title: 'Voce Aggiunta',
+      message: 'La voce è stata aggiunta al diario con successo!',
+      type: 'success'
+    });
+  } catch (error) {
+    handleError(error, 'salvataggio della voce');
+  }
+};
+
+// Delete a journal entry
+const handleDeleteJournalEntry = async (entryId) => {
+  try {
+    await deleteJournalEntry(entryId, user.uid);
+    setJournalEntries(prev => prev.filter(e => e.id !== entryId));
+    showPopup({
+      isOpen: true,
+      title: 'Voce Eliminata',
+      message: 'La voce è stata eliminata dal diario con successo!',
+      type: 'success'
+    });
+  } catch (error) {
+    handleError(error, 'eliminazione della voce');
+  }
+};
+
+  const handleError = (error, context) => {
+    console.error(`Errore in ${context}:`, error);
+    showPopup({
+      isOpen: true,
+      title: 'Errore',
+      message: `Si è verificato un errore durante ${context}. Riprova più tardi.`,
+      type: 'error'
+    });
   };
 
   // Mission carousel navigation - una card alla volta

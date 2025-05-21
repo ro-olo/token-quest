@@ -1,14 +1,28 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-// Import mock auth services
+// Import Firebase auth services
 import { 
   registerUser as registerUserService, 
   loginUser as loginUserService, 
   logoutUser as logoutUserService, 
   updateUserData,
   getUserData,
-  setupAuthObserver
-} from '../services/mockAuthService';
-import { syncMissions, syncRewards, updateMission, updateReward, getUserStats } from '../services/mockDataService';
+  resetPassword
+} from '../services/authService';
+import { 
+  syncMissions, 
+  syncRewards, 
+  updateMission,
+  updateReward, 
+  getUserStats,
+  getMissions,
+  getRewards,
+  saveMission,
+  saveReward,
+  deleteMission,
+  deleteReward
+} from '../services/dataService';
+import { auth } from '../config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 // Create context
 const UserContext = createContext();
@@ -26,7 +40,7 @@ export const UserProvider = ({ children }) => {
 
   // Ascolta cambiamenti nell'autenticazione
   useEffect(() => {
-    const unsubscribe = setupAuthObserver(async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       
       if (user) {
@@ -52,7 +66,7 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     });
     
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
   
   // Registra un nuovo utente
@@ -108,10 +122,10 @@ export const UserProvider = ({ children }) => {
     }
     
     try {
-      const updatedMission = { ...mission, completed: true };
-      await updateMission(currentUser.uid, updatedMission);
+      // Aggiorna lo stato della missione in Firestore
+      await updateMission(currentUser.uid, mission.id, true);
       
-      // Update user energy
+      // Aggiorna l'energia dell'utente
       if (userData) {
         const energyReward = mission.energyReward || 0;
         console.log('Aggiornamento energia:', userData.energy, '+', energyReward);
@@ -124,7 +138,7 @@ export const UserProvider = ({ children }) => {
           completedMissions: (userData.completedMissions || 0) + 1
         });
         
-        // Update local state immediately for better UX
+        // Aggiorna lo stato locale immediatamente per una migliore UX
         setUserData(prev => ({
           ...prev,
           energy: newEnergy,
@@ -135,9 +149,10 @@ export const UserProvider = ({ children }) => {
         console.log('Energia aggiornata a:', newEnergy);
       }
       
-      return updatedMission;
+      return true;
     } catch (err) {
-      console.error('Errore nel completamento della missione:', err);
+      console.error('Errore durante il completamento della missione:', err);
+      setError(err.message || 'Errore durante il completamento della missione');
       throw err;
     }
   };
@@ -147,26 +162,60 @@ export const UserProvider = ({ children }) => {
     if (!currentUser) return;
     
     try {
-      // Check if user has enough energy
-      if ((userData?.energy || 0) < (reward.energyCost || 0)) {
-        throw new Error('Non hai abbastanza energia per riscattare questa ricompensa');
+      // Controlla se l'utente ha abbastanza energia
+      if (userData.energy < reward.energyCost) {
+        throw new Error('Energia insufficiente per riscattare questa ricompensa');
       }
       
-      const updatedReward = { ...reward, redeemed: true };
-      await updateReward(currentUser.uid, updatedReward);
+      // Aggiorna lo stato della ricompensa in Firestore
+      await updateReward(currentUser.uid, reward.id, true);
       
-      // Update user energy
-      if (userData) {
-        const newEnergy = (userData.energy || 0) - (reward.energyCost || 0);
-        await updateUserData(currentUser.uid, { 
-          energy: newEnergy,
-          redeemedRewards: (userData.redeemedRewards || 0) + 1
-        });
-      }
+      // Aggiorna l'energia dell'utente
+      const newEnergy = userData.energy - reward.energyCost;
+      await updateUserData(currentUser.uid, { 
+        energy: newEnergy,
+        redeemedRewards: (userData.redeemedRewards || 0) + 1
+      });
       
-      return updatedReward;
+      // Aggiorna lo stato locale immediatamente
+      setUserData(prev => ({
+        ...prev,
+        energy: newEnergy,
+        redeemedRewards: (prev.redeemedRewards || 0) + 1
+      }));
+      
+      return true;
     } catch (err) {
-      console.error('Errore nel riscatto della ricompensa:', err);
+      console.error('Errore durante il riscatto della ricompensa:', err);
+      setError(err.message || 'Errore durante il riscatto della ricompensa');
+      throw err;
+    }
+  };
+  
+  // Aggiunge una nuova missione
+  const addMission = async (missionData) => {
+    if (!currentUser) return;
+    
+    try {
+      const newMission = await saveMission(currentUser.uid, missionData);
+      return newMission;
+    } catch (err) {
+      console.error('Errore durante l\'aggiunta della missione:', err);
+      setError(err.message || 'Errore durante l\'aggiunta della missione');
+      throw err;
+    }
+  };
+  
+  // Aggiunge una nuova ricompensa
+  const addReward = async (rewardData) => {
+    if (!currentUser) return;
+    
+    try {
+      const newReward = await saveReward(currentUser.uid, rewardData);
+      return newReward;
+    } catch (err) {
+      console.error('Errore durante l\'aggiunta della ricompensa:', err);
+      setError(err.message || 'Errore durante l\'aggiunta della ricompensa');
       throw err;
     }
   };
@@ -295,7 +344,9 @@ export const UserProvider = ({ children }) => {
     addEnergy,
     removeEnergy,
     resetMissions,
-    resetRewards
+    resetRewards,
+    addMission,
+    addReward
   };
   
   return (

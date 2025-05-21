@@ -1,85 +1,65 @@
-// Utility functions for managing local storage data
+import { db } from '../config/firebase';
+import { collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { defaultMissions, defaultRewards } from './initMissions';
 
-// Import our mock data operations
-import { getMissions as getMockMissions, getRewards as getMockRewards } from '../services/mockDataService';
-
-// Generate unique ID by combining timestamp with random string
-const generateUniqueId = () => {
-  return Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
-};
-
-// Missions (Tasks) Management
-export const saveMission = (mission) => {
-  const missions = getMissions();
-  if (mission.id) {
-    // Update existing mission
-    const index = missions.findIndex(m => m.id === mission.id);
-    if (index !== -1) {
-      missions[index] = mission;
-    }
-  } else {
-    // Add new mission with generated ID
-    mission.id = generateUniqueId();
-    mission.createdAt = new Date().toISOString();
-    missions.push(mission);
+export const initDefaultData = async (userId) => {
+  const missionsRef = collection(db, `users/${userId}/missions`);
+  const rewardsRef = collection(db, `users/${userId}/rewards`);
+  
+  const missionsSnapshot = await getDocs(missionsRef);
+  if (missionsSnapshot.empty) {
+    await Promise.all(defaultMissions.map(mission => addDoc(missionsRef, mission)));
   }
-  
-  localStorage.setItem('tokenquest_missions', JSON.stringify(missions));
-  return mission;
-};
 
-export const getMissions = () => {
-  return getMockMissions();
-};
-
-export const getMissionById = (id) => {
-  const missions = getMissions();
-  return missions.find(mission => mission.id === id);
-};
-
-export const deleteMission = (id) => {
-  const missions = getMissions();
-  const updatedMissions = missions.filter(mission => mission.id !== id);
-  localStorage.setItem('tokenquest_missions', JSON.stringify(updatedMissions));
-};
-
-export const completeMission = (missionId) => {
-  const missions = getMissions();
-  const missionIndex = missions.findIndex(mission => mission.id === missionId);
-  
-  if (missionIndex === -1) return null;
-  
-  const updatedMission = { ...missions[missionIndex], completed: true, completedAt: new Date().toISOString() };
-  missions[missionIndex] = updatedMission;
-  
-  // Save updated missions
-  localStorage.setItem('tokenquest_missions', JSON.stringify(missions));
-  
-  return updatedMission;
-};
-
-// Rewards Management
-export const saveReward = (reward) => {
-  const rewards = getRewards();
-  if (reward.id) {
-    // Update existing reward
-    const index = rewards.findIndex(r => r.id === reward.id);
-    if (index !== -1) {
-      rewards[index] = reward;
-    }
-  } else {
-    // Add new reward with generated ID
-    reward.id = generateUniqueId();
-    reward.createdAt = new Date().toISOString();
-    rewards.push(reward);
+  const rewardsSnapshot = await getDocs(rewardsRef);
+  if (rewardsSnapshot.empty) {
+    await Promise.all(defaultRewards.map(reward => addDoc(rewardsRef, reward)));
   }
-  
-  localStorage.setItem('tokenquest_rewards', JSON.stringify(rewards));
-  return reward;
 };
 
-export const getRewards = () => {
-  return getMockRewards();
+export const getMissions = async (userId) => {
+  try {
+    const querySnapshot = await getDocs(collection(db, `users/${userId}/missions`));
+    
+    // Converti i documenti in array anche se vuoto
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) || []; // Fallback esplicito ad array vuoto
+    
+  } catch (error) {
+    console.error("Error getting missions:", error);
+    return []; // Ritorna sempre array anche in caso di errore
+  }
+};
+
+export const saveMission = async (mission, userId) => {
+  const missionsRef = collection(db, `users/${userId}/missions`);
+  const docRef = await addDoc(missionsRef, mission);
+  return { id: docRef.id, ...mission };
+};
+
+export const completeMission = async (missionId, userId) => {
+  const missionRef = doc(db, `users/${userId}/missions/${missionId}`);
+  await updateDoc(missionRef, { completed: true });
+};
+
+// Rewards
+export const getRewards = async (userId) => {
+  const rewardsRef = collection(db, `users/${userId}/rewards`);
+  const snapshot = await getDocs(rewardsRef);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const saveReward = async (reward, userId) => {
+  const rewardsRef = collection(db, `users/${userId}/rewards`);
+  const docRef = await addDoc(rewardsRef, reward);
+  return { id: docRef.id, ...doc.data() };
+};
+
+export const redeemReward = async (rewardId, userId) => {
+  const rewardRef = doc(db, `users/${userId}/rewards/${rewardId}`);
+  await updateDoc(rewardRef, { redeemed: true });
 };
 
 export const getRewardById = (id) => {
@@ -93,55 +73,46 @@ export const deleteReward = (id) => {
   localStorage.setItem('tokenquest_rewards', JSON.stringify(updatedRewards));
 };
 
-export const redeemReward = (rewardId) => {
-  const rewards = getRewards();
-  const rewardIndex = rewards.findIndex(reward => reward.id === rewardId);
-  
-  if (rewardIndex === -1) return null;
-  
-  const updatedReward = { ...rewards[rewardIndex], redeemed: true, redeemedAt: new Date().toISOString() };
-  rewards[rewardIndex] = updatedReward;
-  
-  // Save updated rewards
-  localStorage.setItem('tokenquest_rewards', JSON.stringify(rewards));
-  
-  return updatedReward;
+export const resetRewards = async (userId) => {
+  try {
+    const rewardsRef = collection(db, `users/${userId}/rewards`);
+    const snapshot = await getDocs(rewardsRef);
+    const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    await initDefaultData(userId);
+    return true;
+  } catch (error) {
+    console.error("Error resetting rewards:", error);
+    return false;
+  }
 };
 
-// Journal Entries Management
-export const saveJournalEntry = (entry) => {
-  const entries = getJournalEntries();
+export const saveJournalEntry = async (entry, userId) => {
+  const entriesRef = collection(db, `users/${userId}/journal`);
+  
   if (entry.id) {
     // Update existing entry
-    const index = entries.findIndex(e => e.id === entry.id);
-    if (index !== -1) {
-      entries[index] = entry;
-    }
+    const entryRef = doc(entriesRef, entry.id);
+    await updateDoc(entryRef, entry);
+    return { id: entry.id, ...entry };
   } else {
     // Add new entry with generated ID
-    entry.id = generateUniqueId();
     entry.createdAt = new Date().toISOString();
-    entries.push(entry);
+    const docRef = await addDoc(entriesRef, entry);
+    return { id: docRef.id, ...entry };
   }
-  
-  localStorage.setItem('tokenquest_journal', JSON.stringify(entries));
-  return entry;
 };
 
-export const getJournalEntries = () => {
-  const entries = localStorage.getItem('tokenquest_journal');
-  return entries ? JSON.parse(entries) : [];
+export const getJournalEntries = async (userId) => {
+  const entriesRef = collection(db, `users/${userId}/journal`);
+  const snapshot = await getDocs(entriesRef);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getJournalEntryById = (id) => {
-  const entries = getJournalEntries();
-  return entries.find(entry => entry.id === id);
-};
-
-export const deleteJournalEntry = (id) => {
-  const entries = getJournalEntries();
-  const updatedEntries = entries.filter(entry => entry.id !== id);
-  localStorage.setItem('tokenquest_journal', JSON.stringify(updatedEntries));
+export const deleteJournalEntry = async (entryId, userId) => {
+  const entriesRef = collection(db, `users/${userId}/journal`);
+  const entryRef = doc(entriesRef, entryId);
+  await deleteDoc(entryRef);
 };
 
 // Inizializza missioni predefinite
@@ -154,170 +125,6 @@ export const initDefaultMissions = () => {
 export const initDefaultRewards = () => {
   // This is now handled by mockDataService
   return [];
-};
-
-// Reset missions to default ones
-export const resetMissions = () => {
-  // Elimina tutte le missioni esistenti rimuovendo la chiave dal localStorage
-  localStorage.removeItem('tokenquest_missions');
-  
-  // Crea nuove missioni predefinite con i titoli fantasy
-  const defaultMissions = [
-    {
-      id: generateUniqueId(),
-      title: 'Studio del Tomo Antico',
-      description: 'Una mezz\'ora passata a decifrare rune dimenticate.',
-      energyReward: 1,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Apprendistato alla Torre',
-      description: 'Mezza giornata di studio sotto l\'occhio vigile di un arcimago.',
-      energyReward: 4,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Ritiro dell\'Erudito',
-      description: 'Una giornata intera immersi nello studio dei segreti dell\'universo.',
-      energyReward: 8,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Servizio al Castello',
-      description: 'Giornata intera dedicata al lavoro presso la corte del re.',
-      energyReward: 8,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Turno alla Locanda',
-      description: 'Mezza giornata di lavoro tra taverne e viandanti.',
-      energyReward: 4,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Addestramento del Cavaliere',
-      description: '30 minuti di allenamento con la spada o arti marziali.',
-      energyReward: 3,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Sfida della Forza',
-      description: 'Un\'ora di allenamento sotto la guida dei guardiani del tempio.',
-      energyReward: 5,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Pulizia della Tana',
-      description: 'Lava i piatti e ripulisci gli angoli oscuri della cucina.',
-      energyReward: 3,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Pozioni e Preparati',
-      description: 'Cucina un pasto magico, degno di un banchetto elfico.',
-      energyReward: 3,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Incantesimo di Detersione',
-      description: '15 minuti per scacciare la polvere maledetta.',
-      energyReward: 1,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Purificazione della Dimora',
-      description: '30 minuti di pulizie profonde con spazzole incantate.',
-      energyReward: 2,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Rituale della Lavatrice',
-      description: 'Lava gli abiti infusi di magia quotidiana.',
-      energyReward: 3,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Missione del Mercato',
-      description: 'Spesa settimanale tra mercanti e spezie rare.',
-      energyReward: 3,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Commissione dell\'Usignolo',
-      description: 'Brevi missioni nella città (posta, consegne).',
-      energyReward: 1,
-      completed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Incarico della Gilda',
-      description: 'Commissioni impegnative degne di un avventuriero navigato.',
-      energyReward: 3,
-      completed: false,
-      createdAt: new Date().toISOString()
-    }
-  ];
-  
-  // Salva le missioni predefinite direttamente
-  localStorage.setItem('tokenquest_missions', JSON.stringify(defaultMissions));
-  return defaultMissions;
-};
-
-// Reset rewards to default ones
-export const resetRewards = () => {
-  // Elimina tutte le ricompense esistenti rimuovendo la chiave dal localStorage
-  localStorage.removeItem('tokenquest_rewards');
-  
-  // Crea nuove ricompense predefinite con i titoli fantasy
-  const defaultRewards = [
-    {
-      id: generateUniqueId(),
-      title: 'Duello Virtuale',
-      description: '1 ora di videogiochi tra magie e battaglie epiche.',
-      energyCost: 3,
-      redeemed: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: generateUniqueId(),
-      title: 'Lettura del Grimorio',
-      description: '30 minuti di lettura tra storie leggendarie.',
-      energyCost: 2,
-      redeemed: false,
-      createdAt: new Date().toISOString()
-    }
-  ];
-  
-  // Salva le ricompense predefinite direttamente
-  localStorage.setItem('tokenquest_rewards', JSON.stringify(defaultRewards));
-  return defaultRewards;
 };
 
 // Date utilities
